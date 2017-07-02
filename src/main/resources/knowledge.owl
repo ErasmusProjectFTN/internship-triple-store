@@ -1,0 +1,205 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge"
+     xml:base="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:knowledge="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge">
+        <owl:imports rdf:resource="http://www.semanticweb.org/nina/ontologies/2016/11/ects"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#dependsOn -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#dependsOn">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#KnowledgeDomain"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#KnowledgeDomain"/>
+        <rdfs:comment>Pokazuje da pravilno razumevanje date oblasti znanja zahteva razumevanje druge.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#isContainedIn -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#isContainedIn">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#KnowledgeDomain"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#KnowledgeDomain"/>
+        <rdfs:comment>Opisuje vezu sadrzanja izmedju domena znanja.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#teaches -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#teaches">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/nina/ontologies/2016/11/ects#LearningOpportunityInstance"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#KnowledgeDomain"/>
+        <rdfs:comment>LearningopportunityInstance prenosi datu oblast znanja.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Code -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Code">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#KnowledgeDomain"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Description -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Description">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#KnowledgeDomain"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#LaboratoryRequirements -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#LaboratoryRequirements">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#KnowledgeDomain"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Name -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Name">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#KnowledgeDomain"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#NotableContributors -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#NotableContributors">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#NotableLiterature -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#NotableLiterature">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#KnowledgeDomain"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#PracticalApplications -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#PracticalApplications">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#KnowledgeDomain"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#RequiredTeachingCredentials -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#RequiredTeachingCredentials">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#KnowledgeDomain"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#KnowledgeDomain -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#KnowledgeDomain">
+        <rdfs:comment>Opisuje domen ili oblast znanja.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Knowledge domain</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#DifferentialCalculus -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#DifferentialCalculus">
+        <rdf:type rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#KnowledgeDomain"/>
+        <knowledge:isContainedIn rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Mathemathics"/>
+        <knowledge:Code rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</knowledge:Code>
+        <knowledge:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Stuff</knowledge:Description>
+        <knowledge:Name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Differential calculus</knowledge:Name>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Mathemathics -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Mathemathics">
+        <rdf:type rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#KnowledgeDomain"/>
+        <knowledge:Code rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</knowledge:Code>
+        <knowledge:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Deals with numbers and operations and stuff.</knowledge:Description>
+        <knowledge:Name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mathemathics</knowledge:Name>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->
+
