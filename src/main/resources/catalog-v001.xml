@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <uri id="Imports Wizard Entry" name="http://www.semanticweb.org/banevezilic/ontologies/2017/0/student" uri="file:/C:/Users/sasal/git/triple-store/src/main/resources/student.owl"/>
     <uri id="Imports Wizard Entry" name="http://www.semanticweb.org/nina/ontologies/2016/11/ects" uri="file:/C:/Users/sasal/git/triple-store/src/main/resources/ectsMloMerged_individuals.owl"/>
     <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
-        <uri id="Automatically generated entry, Timestamp=1498999544762" name="http://www.semanticweb.org/ontologies/2017/4/internship" uri="internship.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1498999544762" name="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge" uri="knowledge.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1499105763459" name="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#" uri="internship.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1499105763459" name="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge" uri="knowledge.owl"/>
     </group>
 </catalog>

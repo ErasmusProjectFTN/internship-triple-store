@@ -14,10 +14,11 @@ public class StringUtils {
     //public static String URLquery = "http://localhost:3030/inf/query";
     //URLquery constant for inf configuration
     public static String URLquery = "http://localhost:3030/inf/sparql";
-    public static String namespaceInternship = "http://www.semanticweb.org/ontologies/2017/4/internship#";
+    public static String namespaceInternship = "http://www.semanticweb.org/sasa/ontologies/2017/6/internship#";
 
     public static String namespaceW3c = "^^http://www.w3.org/2001/XMLSchema#integer";    
-    public static String internshipFile = "internship.owl";
+    public static String internshipFile = "internship.owl";    
+    public static String knowledgeFile = "knowledge.owl";
     public static String sparqlTemplate = "SELECT * WHERE{%s %s  %s FILTER(STRSTARTS(STR(%s), %s))}";
 
     /**
