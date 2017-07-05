@@ -1,0 +1,1401 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY terms "http://purl.org/dc/terms/" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY skos "http://www.w3.org/2004/02/skos/core#" >
+    <!ENTITY dc "http://www.purl.org/dc/elements/1.1/" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY ects "http://www.semanticweb.org/nina/ontologies/2016/11/ects#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.semanticweb.org/nina/ontologies/2016/11/ects#"
+     xml:base="http://www.semanticweb.org/nina/ontologies/2016/11/ects"
+     xmlns:dc="http://www.purl.org/dc/elements/1.1/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:terms="http://purl.org/dc/terms/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+     xmlns:ects="http://www.semanticweb.org/nina/ontologies/2016/11/ects#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/nina/ontologies/2016/11/ects"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Datatypes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#CourseUnitTermPatterns -->
+
+    <rdfs:Datatype rdf:about="&ects;CourseUnitTermPatterns">
+        <owl:equivalentClass>
+            <rdfs:Datatype>
+                <owl:oneOf>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&rdf;List"/>
+                        <rdf:first>Semester</rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&rdf;List"/>
+                                <rdf:first>Trimester</rdf:first>
+                                <rdf:rest rdf:resource="&rdf;nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </owl:oneOf>
+            </rdfs:Datatype>
+        </owl:equivalentClass>
+    </rdfs:Datatype>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#LearningOpportunityTypes -->
+
+    <rdfs:Datatype rdf:about="&ects;LearningOpportunityTypes">
+        <owl:equivalentClass>
+            <rdfs:Datatype>
+                <owl:oneOf>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&rdf;List"/>
+                        <rdf:first>CourseUnit</rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&rdf;List"/>
+                                <rdf:first>DegreeProgramme</rdf:first>
+                                <rdf:rest rdf:resource="&rdf;nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </owl:oneOf>
+            </rdfs:Datatype>
+        </owl:equivalentClass>
+    </rdfs:Datatype>
+    
+
+
+    <!-- http://www.w3.org/2000/01/rdf-schema#Resource -->
+
+    <rdfs:Datatype rdf:about="&rdfs;Resource"/>
+    
+
+
+    <!-- http://www.w3.org/2001/XMLSchema#date -->
+
+    <rdfs:Datatype rdf:about="&xsd;date"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#contains -->
+
+    <owl:ObjectProperty rdf:about="&ects;contains">
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:range rdf:resource="&ects;CourseUnitInstance"/>
+        <rdfs:domain rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <owl:inverseOf rdf:resource="&ects;isContained"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#hasPart -->
+
+    <owl:ObjectProperty rdf:about="&ects;hasPart">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityObject"/>
+        <rdfs:range rdf:resource="&ects;LearningOpportunityObject"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#isContained -->
+
+    <owl:ObjectProperty rdf:about="&ects;isContained">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="&ects;CourseUnitInstance"/>
+        <rdfs:range rdf:resource="&ects;DegreeProgrammeInstance"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#offeredAt -->
+
+    <owl:ObjectProperty rdf:about="&ects;offeredAt">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityInstance"/>
+        <rdfs:range rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#offers -->
+
+    <owl:ObjectProperty rdf:about="&ects;offers">
+        <rdfs:range rdf:resource="&ects;LearningOpportunityInstance"/>
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <owl:inverseOf rdf:resource="&ects;offeredAt"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/date -->
+
+    <owl:DatatypeProperty rdf:about="http://purl.org/dc/elements/1.1/date">
+        <rdfs:range rdf:resource="&xsd;date"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/identifier -->
+
+    <owl:DatatypeProperty rdf:about="http://purl.org/dc/elements/1.1/identifier">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityObject"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/language -->
+
+    <owl:DatatypeProperty rdf:about="http://purl.org/dc/elements/1.1/language"/>
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/type -->
+
+    <owl:DatatypeProperty rdf:about="http://purl.org/dc/elements/1.1/type"/>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#Assessment -->
+
+    <owl:DatatypeProperty rdf:about="&ects;Assessment">
+        <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#Cost -->
+
+    <owl:DatatypeProperty rdf:about="&ects;Cost">
+        <rdfs:comment>A cost associated with obtaining access to the Learning Opportunity Instance.</rdfs:comment>
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityInstance"/>
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#CourseCost -->
+
+    <owl:DatatypeProperty rdf:about="&ects;CourseCost">
+        <rdfs:subPropertyOf rdf:resource="&ects;Cost"/>
+        <rdfs:domain rdf:resource="&ects;CourseUnitInstance"/>
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#CourseCredit -->
+
+    <owl:DatatypeProperty rdf:about="&ects;CourseCredit">
+        <rdfs:domain rdf:resource="&ects;CourseUnitInstance"/>
+        <rdfs:subPropertyOf rdf:resource="&ects;Credit"/>
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#CourseUnitAssessmentMethods -->
+
+    <owl:DatatypeProperty rdf:about="&ects;CourseUnitAssessmentMethods">
+        <rdfs:subPropertyOf rdf:resource="&ects;Assessment"/>
+        <rdfs:domain rdf:resource="&ects;CourseUnitInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#CourseUnitCode -->
+
+    <owl:DatatypeProperty rdf:about="&ects;CourseUnitCode">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/identifier"/>
+        <rdfs:domain rdf:resource="&ects;CourseUnitInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#CourseUnitCompetence -->
+
+    <owl:DatatypeProperty rdf:about="&ects;CourseUnitCompetence">
+        <rdfs:domain rdf:resource="&ects;CourseUnitInstance"/>
+        <rdfs:subPropertyOf rdf:resource="&ects;Objective"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#CourseUnitContent -->
+
+    <owl:DatatypeProperty rdf:about="&ects;CourseUnitContent">
+        <rdfs:subPropertyOf rdf:resource="&ects;CourseUnitInformation"/>
+        <rdfs:domain rdf:resource="&ects;CourseUnitInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#CourseUnitDuration -->
+
+    <owl:DatatypeProperty rdf:about="&ects;CourseUnitDuration">
+        <rdfs:domain rdf:resource="&ects;CourseUnitInstance"/>
+        <rdfs:subPropertyOf rdf:resource="&ects;Duration"/>
+        <rdfs:range rdf:resource="&xsd;int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#CourseUnitInformation -->
+
+    <owl:DatatypeProperty rdf:about="&ects;CourseUnitInformation">
+        <rdfs:domain rdf:resource="&ects;CourseUnitInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#CourseUnitLanguageOfInstruction -->
+
+    <owl:DatatypeProperty rdf:about="&ects;CourseUnitLanguageOfInstruction">
+        <rdfs:domain rdf:resource="&ects;CourseUnitInstance"/>
+        <rdfs:subPropertyOf rdf:resource="&ects;LanguageOfInstruction"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#CourseUnitLearningOutcome -->
+
+    <owl:DatatypeProperty rdf:about="&ects;CourseUnitLearningOutcome">
+        <rdfs:domain rdf:resource="&ects;CourseUnitInstance"/>
+        <rdfs:subPropertyOf rdf:resource="&ects;Objective"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#CourseUnitLevel -->
+
+    <owl:DatatypeProperty rdf:about="&ects;CourseUnitLevel">
+        <rdfs:comment>The level on which the course is being held.</rdfs:comment>
+        <rdfs:domain rdf:resource="&ects;CourseUnitInstance"/>
+        <rdfs:subPropertyOf rdf:resource="&ects;Level"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#CourseUnitPlaces -->
+
+    <owl:DatatypeProperty rdf:about="&ects;CourseUnitPlaces">
+        <rdfs:domain rdf:resource="&ects;CourseUnitInstance"/>
+        <rdfs:subPropertyOf rdf:resource="&ects;Places"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#CourseUnitPrerequisite -->
+
+    <owl:DatatypeProperty rdf:about="&ects;CourseUnitPrerequisite">
+        <rdfs:domain rdf:resource="&ects;CourseUnitInstance"/>
+        <rdfs:subPropertyOf rdf:resource="&ects;Prerequisite"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#CourseUnitRecommendedReading -->
+
+    <owl:DatatypeProperty rdf:about="&ects;CourseUnitRecommendedReading">
+        <rdfs:domain rdf:resource="&ects;CourseUnitInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#CourseUnitStart -->
+
+    <owl:DatatypeProperty rdf:about="&ects;CourseUnitStart">
+        <rdfs:domain rdf:resource="&ects;CourseUnitInstance"/>
+        <rdfs:subPropertyOf rdf:resource="&ects;Start"/>
+        <rdfs:range rdf:resource="&xsd;date"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#CourseUnitTeachingMethods -->
+
+    <owl:DatatypeProperty rdf:about="&ects;CourseUnitTeachingMethods">
+        <rdfs:domain rdf:resource="&ects;CourseUnitInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#CourseUnitTermPattern -->
+
+    <owl:DatatypeProperty rdf:about="&ects;CourseUnitTermPattern">
+        <rdfs:comment>Describes the pattern of the learning opportunity - it can either be semester or trimester.</rdfs:comment>
+        <rdfs:domain rdf:resource="&ects;CourseUnitInstance"/>
+        <rdfs:range rdf:resource="&ects;CourseUnitTermPatterns"/>
+        <rdfs:subPropertyOf rdf:resource="&ects;Engagement"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#CourseUnitTitle -->
+
+    <owl:DatatypeProperty rdf:about="&ects;CourseUnitTitle">
+        <rdfs:domain rdf:resource="&ects;CourseUnitInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#CourseUnitType -->
+
+    <owl:DatatypeProperty rdf:about="&ects;CourseUnitType">
+        <rdfs:comment>Describes course type.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/type"/>
+        <rdfs:domain rdf:resource="&ects;CourseUnitInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#CourseUnitYearOfStudy -->
+
+    <owl:DatatypeProperty rdf:about="&ects;CourseUnitYearOfStudy">
+        <rdfs:domain rdf:resource="&ects;CourseUnitInstance"/>
+        <rdfs:subPropertyOf rdf:resource="&ects;Level"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#Credit -->
+
+    <owl:DatatypeProperty rdf:about="&ects;Credit">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityInstance"/>
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#DegreeProgrammeAccessToFurtherStudies -->
+
+    <owl:DatatypeProperty rdf:about="&ects;DegreeProgrammeAccessToFurtherStudies">
+        <rdfs:subPropertyOf rdf:resource="&ects;DegreeProgrammeInformation"/>
+        <rdfs:domain rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#DegreeProgrammeCost -->
+
+    <owl:DatatypeProperty rdf:about="&ects;DegreeProgrammeCost">
+        <rdfs:subPropertyOf rdf:resource="&ects;Cost"/>
+        <rdfs:domain rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#DegreeProgrammeCredit -->
+
+    <owl:DatatypeProperty rdf:about="&ects;DegreeProgrammeCredit">
+        <rdfs:subPropertyOf rdf:resource="&ects;Credit"/>
+        <rdfs:domain rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#DegreeProgrammeDuration -->
+
+    <owl:DatatypeProperty rdf:about="&ects;DegreeProgrammeDuration">
+        <rdfs:domain rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <rdfs:subPropertyOf rdf:resource="&ects;Duration"/>
+        <rdfs:range rdf:resource="&xsd;int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#DegreeProgrammeEducationAndProfessionalGoals -->
+
+    <owl:DatatypeProperty rdf:about="&ects;DegreeProgrammeEducationAndProfessionalGoals">
+        <rdfs:subPropertyOf rdf:resource="&ects;DegreeProgrammeInformation"/>
+        <rdfs:domain rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#DegreeProgrammeExaminationAndAssessmentRegulations -->
+
+    <owl:DatatypeProperty rdf:about="&ects;DegreeProgrammeExaminationAndAssessmentRegulations">
+        <rdfs:subPropertyOf rdf:resource="&ects;Assessment"/>
+        <rdfs:domain rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#DegreeProgrammeFinalExamination -->
+
+    <owl:DatatypeProperty rdf:about="&ects;DegreeProgrammeFinalExamination">
+        <rdfs:subPropertyOf rdf:resource="&ects;Assessment"/>
+        <rdfs:domain rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#DegreeProgrammeInformation -->
+
+    <owl:DatatypeProperty rdf:about="&ects;DegreeProgrammeInformation">
+        <rdfs:domain rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#DegreeProgrammeLanguageOfInstruction -->
+
+    <owl:DatatypeProperty rdf:about="&ects;DegreeProgrammeLanguageOfInstruction">
+        <rdfs:domain rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <rdfs:subPropertyOf rdf:resource="&ects;LanguageOfInstruction"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#DegreeProgrammePlaces -->
+
+    <owl:DatatypeProperty rdf:about="&ects;DegreeProgrammePlaces">
+        <rdfs:domain rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <rdfs:subPropertyOf rdf:resource="&ects;Places"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#DegreeProgrammePrerequisite -->
+
+    <owl:DatatypeProperty rdf:about="&ects;DegreeProgrammePrerequisite">
+        <rdfs:domain rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <rdfs:subPropertyOf rdf:resource="&ects;Prerequisite"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#DegreeProgrammeStart -->
+
+    <owl:DatatypeProperty rdf:about="&ects;DegreeProgrammeStart">
+        <rdfs:domain rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <rdfs:subPropertyOf rdf:resource="&ects;Start"/>
+        <rdfs:range rdf:resource="&xsd;date"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#DegreeProgrammeStructureDiagram -->
+
+    <owl:DatatypeProperty rdf:about="&ects;DegreeProgrammeStructureDiagram">
+        <rdfs:domain rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#DegreeProgrammeTitle -->
+
+    <owl:DatatypeProperty rdf:about="&ects;DegreeProgrammeTitle">
+        <rdfs:domain rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#DegreeProgrammeType -->
+
+    <owl:DatatypeProperty rdf:about="&ects;DegreeProgrammeType">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/type"/>
+        <rdfs:domain rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#DegreeUnitCode -->
+
+    <owl:DatatypeProperty rdf:about="&ects;DegreeUnitCode">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/identifier"/>
+        <rdfs:domain rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#DepartmentalEctsCoordinator -->
+
+    <owl:DatatypeProperty rdf:about="&ects;DepartmentalEctsCoordinator">
+        <rdfs:domain rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#Duration -->
+
+    <owl:DatatypeProperty rdf:about="&ects;Duration">
+        <rdfs:comment>A duration of the Learning Opportunity Instance.
+Recommended best practice is to use an encoding scheme, such as the W3CDTF profile of
+ISO\-8601.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/date"/>
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityInstance"/>
+        <rdfs:range rdf:resource="&xsd;int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#Engagement -->
+
+    <owl:DatatypeProperty rdf:about="&ects;Engagement">
+        <rdfs:comment>The logistical means by which individuals engage in a Learning Opportunity Instance, encompassing temporal, modal and spatial patterns of engagement and attendance. 
+Examples include overall attendance (full-time, part-time), modes of study (distance, campus based, workplace-based, online), and patterns of attendance hours (evenings, daytime, weekend). Attention is drawn to http://purl.org/dc/elements/1.1/coverage as a similar, though not equivalent, property</rdfs:comment>
+        <rdfs:comment>Describes the way student is involved in a learning opportunity (part-time or full-time student, online student or regular student, attending regular lectures or night/weekend lectures).</rdfs:comment>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#GeneralInformationForMobileStudents -->
+
+    <owl:DatatypeProperty rdf:about="&ects;GeneralInformationForMobileStudents">
+        <rdfs:subPropertyOf rdf:resource="&ects;GeneralInformationForStudents"/>
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#GeneralInformationForStudents -->
+
+    <owl:DatatypeProperty rdf:about="&ects;GeneralInformationForStudents">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#GeneralInformationOnAccommodation -->
+
+    <owl:DatatypeProperty rdf:about="&ects;GeneralInformationOnAccommodation">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#GeneralInformationOnCostOfLiving -->
+
+    <owl:DatatypeProperty rdf:about="&ects;GeneralInformationOnCostOfLiving">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#GeneralInformationOnExtraMuralAndLeisureFacilities -->
+
+    <owl:DatatypeProperty rdf:about="&ects;GeneralInformationOnExtraMuralAndLeisureFacilities">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#GeneralInformationOnFacilitiesForStudentsWithSpecialNeeds -->
+
+    <owl:DatatypeProperty rdf:about="&ects;GeneralInformationOnFacilitiesForStudentsWithSpecialNeeds">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#GeneralInformationOnFinancialSupport -->
+
+    <owl:DatatypeProperty rdf:about="&ects;GeneralInformationOnFinancialSupport">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#GeneralInformationOnInsurance -->
+
+    <owl:DatatypeProperty rdf:about="&ects;GeneralInformationOnInsurance">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#GeneralInformationOnInternationalProgrammes -->
+
+    <owl:DatatypeProperty rdf:about="&ects;GeneralInformationOnInternationalProgrammes">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#GeneralInformationOnInternships -->
+
+    <owl:DatatypeProperty rdf:about="&ects;GeneralInformationOnInternships">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#GeneralInformationOnLanguageCourses -->
+
+    <owl:DatatypeProperty rdf:about="&ects;GeneralInformationOnLanguageCourses">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#GeneralInformationOnMeals -->
+
+    <owl:DatatypeProperty rdf:about="&ects;GeneralInformationOnMeals">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#GeneralInformationOnMedicalFacilities -->
+
+    <owl:DatatypeProperty rdf:about="&ects;GeneralInformationOnMedicalFacilities">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#GeneralInformationOnSportsFacilities -->
+
+    <owl:DatatypeProperty rdf:about="&ects;GeneralInformationOnSportsFacilities">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#GeneralInformationOnStudentAffairsOffice -->
+
+    <owl:DatatypeProperty rdf:about="&ects;GeneralInformationOnStudentAffairsOffice">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#GeneralInformationOnStudentAssociations -->
+
+    <owl:DatatypeProperty rdf:about="&ects;GeneralInformationOnStudentAssociations">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#GeneralInformationOnStudyFacilities -->
+
+    <owl:DatatypeProperty rdf:about="&ects;GeneralInformationOnStudyFacilities">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#InstitutionAcademicAuthorities -->
+
+    <owl:DatatypeProperty rdf:about="&ects;InstitutionAcademicAuthorities">
+        <rdfs:subPropertyOf rdf:resource="&ects;InstitutionDescription"/>
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#InstitutionAcademicCalendar -->
+
+    <owl:DatatypeProperty rdf:about="&ects;InstitutionAcademicCalendar">
+        <rdfs:subPropertyOf rdf:resource="&ects;InstitutionDescription"/>
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#InstitutionAdmissionProcedures -->
+
+    <owl:DatatypeProperty rdf:about="&ects;InstitutionAdmissionProcedures">
+        <rdfs:subPropertyOf rdf:resource="&ects;InstitutionDescription"/>
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#InstitutionCode -->
+
+    <owl:DatatypeProperty rdf:about="&ects;InstitutionCode">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/identifier"/>
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#InstitutionDescription -->
+
+    <owl:DatatypeProperty rdf:about="&ects;InstitutionDescription">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#InstitutionGeneralDescription -->
+
+    <owl:DatatypeProperty rdf:about="&ects;InstitutionGeneralDescription">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#InstitutionMainUniversityRegulations -->
+
+    <owl:DatatypeProperty rdf:about="&ects;InstitutionMainUniversityRegulations">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#InstitutionName -->
+
+    <owl:DatatypeProperty rdf:about="&ects;InstitutionName">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#InstitutionStatus -->
+
+    <owl:DatatypeProperty rdf:about="&ects;InstitutionStatus">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/type"/>
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#InstitutionType -->
+
+    <owl:DatatypeProperty rdf:about="&ects;InstitutionType">
+        <rdfs:comment>Describes learning opportunity institution type.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/type"/>
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#InstitutionalEctsCoordinator -->
+
+    <owl:DatatypeProperty rdf:about="&ects;InstitutionalEctsCoordinator">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityProvider"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#LanguageOfInstruction -->
+
+    <owl:DatatypeProperty rdf:about="&ects;LanguageOfInstruction">
+        <rdfs:comment>A language in which the Learning Opportunity Instance is available to be taught.
+Comments: Attention is drawn to ISO\-639.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/language"/>
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#Lecturer -->
+
+    <owl:DatatypeProperty rdf:about="&ects;Lecturer">
+        <rdfs:domain rdf:resource="&ects;CourseUnitInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#Level -->
+
+    <owl:DatatypeProperty rdf:about="&ects;Level">
+        <rdfs:comment>An account of the education level of the Learning Opportunity.
+Level will typically indicate the intended outcome of the Learning Opportunity in terms of progression; contrast this with the Prerequisite property. Attention is drawn to http://purl.org/dc/terms/educationLevel as defined in DCMI\-TERMS as a similar, though not equivalent term.</rdfs:comment>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#Location -->
+
+    <owl:DatatypeProperty rdf:about="&ects;Location">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityObject"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#Objective -->
+
+    <owl:DatatypeProperty rdf:about="&ects;Objective">
+        <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#Places -->
+
+    <owl:DatatypeProperty rdf:about="&ects;Places">
+        <rdfs:comment>Mesto na kom se odvija učešće u obrazovnoj prilici</rdfs:comment>
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#Prerequisite -->
+
+    <owl:DatatypeProperty rdf:about="&ects;Prerequisite">
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#Qualification -->
+
+    <owl:DatatypeProperty rdf:about="&ects;Qualification">
+        <rdfs:domain rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <rdfs:range rdf:resource="&rdfs;Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#Start -->
+
+    <owl:DatatypeProperty rdf:about="&ects;Start">
+        <rdfs:comment>A date from which the Learning Opportunity Instance commences.
+Recommended best practice is to use an encoding scheme, such as the W3CDTF profile of
+ISO\-8601.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/date"/>
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityInstance"/>
+        <rdfs:range rdf:resource="&xsd;date"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#Url -->
+
+    <owl:DatatypeProperty rdf:about="&ects;Url">
+        <rdfs:comment>A link to a web resource that provides an alternate representation of the resource. The content should conform to a URI IETF\-RFC2396.
+Typically the web page of the provider or course.</rdfs:comment>
+        <rdfs:domain rdf:resource="&ects;LearningOpportunityObject"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#CourseUnitInstance -->
+
+    <owl:Class rdf:about="&ects;CourseUnitInstance">
+        <rdfs:subClassOf rdf:resource="&ects;LearningOpportunityInstance"/>
+        <owl:disjointWith rdf:resource="&ects;DegreeProgrammeInstance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#DegreeProgrammeInstance -->
+
+    <owl:Class rdf:about="&ects;DegreeProgrammeInstance">
+        <rdfs:subClassOf rdf:resource="&ects;LearningOpportunityInstance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#LearningOpportunityInstance -->
+
+    <owl:Class rdf:about="&ects;LearningOpportunityInstance">
+        <rdfs:subClassOf rdf:resource="&ects;LearningOpportunityObject"/>
+        <rdfs:comment>Predstavlja opis jedne izvedbe obrazovne prilike. Ovo je konkretan opis i moze da sadrzi informacije kao sto je datum pocetka, rok za prijavu, mesto odrzavanja obrazovne prilike i slicno.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#LearningOpportunityObject -->
+
+    <owl:Class rdf:about="&ects;LearningOpportunityObject">
+        <rdfs:comment>Modeluje apstraktne resurse koji se koriste u kontekstu obrayovnih prilika.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#LearningOpportunityProvider -->
+
+    <owl:Class rdf:about="&ects;LearningOpportunityProvider">
+        <rdfs:subClassOf rdf:resource="&ects;LearningOpportunityObject"/>
+        <rdfs:comment>Predstavlja agente (osobe ili institucije) koje nude obrazovnu priliku.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#courseUnit1 -->
+
+    <owl:NamedIndividual rdf:about="&ects;courseUnit1">
+        <rdf:type rdf:resource="&ects;CourseUnitInstance"/>
+        <CourseUnitContent></CourseUnitContent>
+        <CourseUnitAssessmentMethods></CourseUnitAssessmentMethods>
+        <CourseUnitCode>1</CourseUnitCode>
+        <CourseUnitTitle>Calculus 1</CourseUnitTitle>
+        <CourseUnitRecommendedReading></CourseUnitRecommendedReading>
+        <CourseUnitTeachingMethods></CourseUnitTeachingMethods>
+        <CourseUnitStart></CourseUnitStart>
+        <CourseUnitTitle></CourseUnitTitle>
+        <offeredAt rdf:resource="&ects;provider1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#courseUnit2 -->
+
+    <owl:NamedIndividual rdf:about="&ects;courseUnit2">
+        <rdf:type rdf:resource="&ects;CourseUnitInstance"/>
+        <CourseUnitTitle>Calculus 2</CourseUnitTitle>
+        <CourseUnitCode>2</CourseUnitCode>
+        <offeredAt rdf:resource="&ects;provider1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#courseUnit3 -->
+
+    <owl:NamedIndividual rdf:about="&ects;courseUnit3">
+        <rdf:type rdf:resource="&ects;CourseUnitInstance"/>
+        <CourseUnitCode>3</CourseUnitCode>
+        <CourseUnitTitle>Algebra</CourseUnitTitle>
+        <offeredAt rdf:resource="&ects;provider1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#courseUnit4 -->
+
+    <owl:NamedIndividual rdf:about="&ects;courseUnit4">
+        <rdf:type rdf:resource="&ects;CourseUnitInstance"/>
+        <CourseUnitCode>4</CourseUnitCode>
+        <CourseUnitTitle>English</CourseUnitTitle>
+        <offeredAt rdf:resource="&ects;provider1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#courseUnit5 -->
+
+    <owl:NamedIndividual rdf:about="&ects;courseUnit5">
+        <rdf:type rdf:resource="&ects;CourseUnitInstance"/>
+        <CourseUnitCode>5</CourseUnitCode>
+        <CourseUnitTitle>Programming fundamentals</CourseUnitTitle>
+        <offeredAt rdf:resource="&ects;provider2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#courseUnit6 -->
+
+    <owl:NamedIndividual rdf:about="&ects;courseUnit6">
+        <rdf:type rdf:resource="&ects;CourseUnitInstance"/>
+        <CourseUnitTitle>Web programming</CourseUnitTitle>
+        <CourseUnitCode>6</CourseUnitCode>
+        <offeredAt rdf:resource="&ects;provider2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#degreeProgramme1 -->
+
+    <owl:NamedIndividual rdf:about="&ects;degreeProgramme1">
+        <rdf:type rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <DegreeProgrammeInformation>The study programme of the Undergraduate Academic Studies in Computing and Control Engineering in the field of Electrical and Computer Engineering is realized at the Department of Computing and Control
+Engineering of the Faculty of Technical Sciences, University of Novi Sad. The study programme of Computing and Control Engineering is developed within three basic engineering areas: automatic control and systems engineering, applied computer science and informatics and computer engineering and computer communications. The concept of the programme is defined in such a way that it educates future engineers who will possess the knowledge which is necessary for practical work and which at the same time enables them to continue education at the corresponding graduate or doctoral studies. The current state and, especially, trends in the development of electrical and computer engineering form the basis for defining the structure and content of the study programme. For that reason a number of subjects at the lower years of study is defined in such a way to provide the necessary general and theoretical knowledge which provide the foundation for understanding computing, system (especially engineering) control and automatic control based on principles of physics, mathematics, electrical engineering, computer science, computer engineering, theory of signals and systems. Upper years of study are devoted primarily to specialized courses which are aimed at providing professional and applied knowledge in the narrow fields of interest. The studies especially value independent work, encourage participation in practical professional and developmental projects within the laboratories and develop problem solving abilities. New, contemporary laboratories are established in cooperation with the renowned international companies: IBM, Cisco Systems, Allied Telesyn, Micronas, ABB, Philips, Sagem, OpenWave, AOL, Cirrus Logic, Danfoss, Nivelco, Feedback, Siemens, Leica, Schneider electric. In addition to the necessary theoretical and practical knowledge, all these activities provide the feeling of self confidence and completeness which is necessary for the successful integration in the professional environment. The wide area covered by the study programme and the inevitable need for specialization have led to the need for a large number of elective courses at the upper years while the interdisciplinary aspect is maintained through common core subjects.
+</DegreeProgrammeInformation>
+        <DegreeProgrammeTitle>Computing and Control Engineering
+</DegreeProgrammeTitle>
+        <Qualification>Bachelor with Honours in Electrical and Computer Engineering</Qualification>
+        <DegreeUnitCode>E2</DegreeUnitCode>
+        <contains rdf:resource="&ects;courseUnit4"/>
+        <contains rdf:resource="&ects;courseUnit5"/>
+        <contains rdf:resource="&ects;courseUnit6"/>
+        <offeredAt rdf:resource="&ects;provider1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#degreeProgramme2 -->
+
+    <owl:NamedIndividual rdf:about="&ects;degreeProgramme2">
+        <rdf:type rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <DegreeProgrammeInformation>The study programme Power, Electronic and Telecommunications Engineering has been created on the basis of modern scientific knowledge in the field of Electrical and Computer Engineering, modeled after similar study programmes at the leading universities in the world and in accordance with the Bologna recommendations and technology strategy development of AP Vojvodina and Serbia. Lectures within the undergraduate academic studies last 4 years and a graduate thesis is planned for the eighth semester. Each year the study programme usually enrolls 200 students. Students who successfully complete this study programme obtain a diploma in Electrical and Computer Engineering with the title of the study programme Power, Electronic and Telecommunications Engineering, as well as information on particular competences that the students obtain during their studies. The study programme enables students to acquire necessary knowledge, skills and practical experience in the field of power systems, power electronics, electric machines, electronics, communication technologies, signal processing, as well as measurement systems. Acquired knowledge and skills enable graduate students to successfully answer the demands of the market and knowledge-based economy in the field of modern electrical and computer engineering. Lectures in professionally applied and scientific-professional subjects are carried out by teachers from the Department of the Power, Electronics and Telecommunications Engineering at the Faculty of Technical Sciences in Novi Sad, which is prime and responsible for the study programme. Lectures in theoreticalmethodological and academic-general educational subjects are carried out by teachers from other departments of the Faculty of Technical Sciences. The practical part of the lectures is carried out in modern and well equipped laboratories in which students are trained to solve practical engineering problems.</DegreeProgrammeInformation>
+        <DegreeUnitCode>E1</DegreeUnitCode>
+        <DegreeProgrammeTitle>Power, Electronic and Telecommunication Engineering
+</DegreeProgrammeTitle>
+        <Qualification>Bachelor with Honours in Electrical and Computer Engineering</Qualification>
+        <contains rdf:resource="&ects;courseUnit1"/>
+        <contains rdf:resource="&ects;courseUnit2"/>
+        <contains rdf:resource="&ects;courseUnit3"/>
+        <offeredAt rdf:resource="&ects;provider1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#degreeProgramme3 -->
+
+    <owl:NamedIndividual rdf:about="&ects;degreeProgramme3">
+        <rdf:type rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <DegreeUnitCode>SIIT</DegreeUnitCode>
+        <DegreeProgrammeTitle>Software Engineering and Information Technologies
+</DegreeProgrammeTitle>
+        <Qualification>Bachelor with Honours in Electrical and Computer Engineering </Qualification>
+        <DegreeProgrammeInformation>Undergraduate study programme “Software Engineering and Information Technologies” has been recognized as a potential platform for integration of activities of almost all of the departments of Faculty of Technical Sciences, University of Novi Sad. As such it is implemented as a undergraduate study programme to which different departments of the Faculty contribute. Undergraduate study programme “Software engineering and information technologies”, at the Department of Computing and Control, is conceived to cover all important methodological aspects of complex software systems development, most notably software engineering and accompanying software technologies, as well as applications of software engineering in different domains – technical, business and social. This programme complies with recommendations given in the Software engineering curriculum SE2004, which has emerged as a result of a joint project of two international professional associations - ACM and IEEE. In accordance with these recommendations, courses in the first three years of study programme provide good basic knowledge and understanding in several areas of general education, such as mathematics, as well as deep insight in technological subjects (primarily software related) and theoretical and methodological knowledge in subjects recognized as professionally relevant in ACM/IEEE curriculum. The fourth year is dedicated to specialized courses, aimed at empowering students for competent and professional software development in certain domain of interests, applying previously adopted theoretical/methodological concepts of software engineering and up-to-date technologies and tools for software development. Throughout the course of a study, individual and independent work of a student is appreciated, and involvement in ongoing technical and development projects is encouraged. Special consideration is given to development of student’s problem solving capabilities. Faculty of Technical Sciences is equipped with a large number of computer laboratories, as well as other specialized laboratories for specific domains (transportation, robotics, telecommunications, electronics, civil engineering, environmental protection, process engineering, mechanics, industrial and business management, architecture, graphical engineering…). Clearly profiled area of software engineering on the one side, and a wide range of possible application on the other side, requires that future software engineers have good knowledge of one, or more, domains. This knowledge ensures good communications with domain experts and better understanding of problems that software is intended to cope with. Such a situation calls for substantial degree of freedom of choice, regarding subjects, on the fourth year of study, while the first three years are comprised of common subjects for the the general profile of software engineering.</DegreeProgrammeInformation>
+        <offeredAt rdf:resource="&ects;provider1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#degreeProgramme4 -->
+
+    <owl:NamedIndividual rdf:about="&ects;degreeProgramme4">
+        <rdf:type rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <DegreeProgrammeTitle>Clean Energy Technologies</DegreeProgrammeTitle>
+        <Qualification>Bachelor with Honours in Energy Technologies</Qualification>
+        <DegreeProgrammeInformation>Clean Energy Technologies are energy efficient technologies and renewable energy technology. These technologies reduce the use of energy from conventional sources (fossil fuels). Energy efficiency and renewable energy applications use very different technologies. Energy efficiency measures are related to the methods and means for reducing energy consumption by improving use of the device, improving service and maintenance, replacement management system and so on. Clean Energy Technologies falls into the category of energy efficiency and includes the combined production of heat and power, efficient lighting system, ventilation system, drives to drive pumps and fans, repair insulation, high-efficiency building envelope and windows, and other commercial technologies that are being developed. Academic program Clean Energy Technology is an integrative, interdisciplinary and global. Best Available Energy Technologies are technologies that offer newest solutions for environmental protection. Emissions from the process of these technologies are brought to a minimum. The Best Available Technology is defined by different protocols and the European Union have begun to be applied in our country.
+</DegreeProgrammeInformation>
+        <DegreeUnitCode>CET</DegreeUnitCode>
+        <offeredAt rdf:resource="&ects;provider1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#degreeProgramme5 -->
+
+    <owl:NamedIndividual rdf:about="&ects;degreeProgramme5">
+        <rdf:type rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <DegreeProgrammeTitle>Biology</DegreeProgrammeTitle>
+        <DegreeProgrammeInformation>The purpose of the study programme is to educate students within the field of biology and make them competent for work in biological laboratories of different industrial sectors as well as in research laboratories. The study programme structure with its general education, theoretical and methodological courses enables students to acquire fundamentals  of natural science disciplines. This knowledge is further improved by subject-related and applicable courses included in the programme. The competences and skills acquired at this level serve as the basis of fundamental knowledge necessary for continuing the educational process at master’s degree level in the field of biology and other closely related disciplines.
+The objective of BIOLOGY study programme is to educate professionals in the field of biology. Students should develop general skills for acquiring, analysing and synthesizing fundamental concepts related to natural sciences and biology. In addition, students develop skills for application of the gained knowledge and efficient laboratory skills. Upon completion of the course of study in biology students are qualified for work in sectors such as industry, agriculture, medicine and other sectors where biological knowledge and skills can be applied. They are also qualified for work in research and development laboratories as well as in institutions for nature conservation.
+</DegreeProgrammeInformation>
+        <Qualification>Bachelor with Honours in Biology</Qualification>
+        <DegreeUnitCode>B</DegreeUnitCode>
+        <offeredAt rdf:resource="&ects;provider2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#degreeProgramme6 -->
+
+    <owl:NamedIndividual rdf:about="&ects;degreeProgramme6">
+        <rdf:type rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <DegreeProgrammeInformation>The purpose of the study programme is to educate students within the field of ecology and environmental protection and make them competent for work in laboratories of different industrial sectors as well as in research laboratories. The study programme structure with its general education, theoretical and methodological courses enables students to acquire fundamentals  of natural science disciplines. This knowledge is further improved by subject-related and applicable courses included in the programme. The competences and skills acquired at this level serve as the basis of fundamental knowledge necessary for continuing the educational process at master’s degree level in the field of ecology and other closely related disciplines. The objective of ECOLOGY study programme is to educate professionals in the field of ecology. Students should develop general skills for acquiring, analysing and synthetising fundamental concepts related to natural sciences, particularly to ecology. In addition, students develop skills for application of the gained knowledge as well as efficient laboratory skills. Upon completion of the course of study in ecology students are qualified for work in ecological laboratories of different industry branches and research laboratories. The knowledge gained during the course of study can be easily applied in everyday work as well as in research activities.
+</DegreeProgrammeInformation>
+        <Qualification>Bachelor with Honours in Ecology</Qualification>
+        <DegreeUnitCode>E</DegreeUnitCode>
+        <DegreeProgrammeTitle>Ecology</DegreeProgrammeTitle>
+        <offeredAt rdf:resource="&ects;provider2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#degreeProgramme7 -->
+
+    <owl:NamedIndividual rdf:about="&ects;degreeProgramme7">
+        <rdf:type rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <Qualification>Bachelor in Informatics</Qualification>
+        <DegreeProgrammeInformation>The purpose of the this study programme is:
+
+General education in informatics; the graduates are capable of doing practical work on computers in industry in all of the phases and roles during the software development, with the great understanding of the correlations between software development and other aspects of business and theoretical background;
+Education in informatics for participation in development and application of software systems, as well as for work in the application of information technologies and computer science in education, security, healthcare and other areas of work;
+Preparation for further studies in the field of information technologies and computer science. By choosing the appropriate elective module, student can specialize already on undergraduate studies in more general business applications (information technologies: information systems, software engineering, management, etc.) or for the fundamental fields of informatics (computer science: system software, simulations, computer games, etc.).
+Both vocations of students (information technologies and computer science) are necessary resources for development of the knowledge-based society, i.e. information society that is already significantly developed in countries of the European Union, USA, Australia, Japan, etc.
+
+Since 2000, Serbia has had a growing need for human resources educated in informatics in both specializations, due to the increase in investments and appearance of the foreign companies and standards, both in the field of informatics and other fields that require support in informatics.
+
+The goals of the study programme of Bachelor in Informatics are:
+
+Introduction to basic principles in informatics, methods and techniques required for solving problems using computers, as well as for the successful application of computers in various fields of work;
+Acquisition of fundamental knowledge, methods and techniques of programming languages and programming paradigms (structured, object-oriented, functional, logic), algorithms, operating systems, databases and information systems;
+Introduction to core mathematical disciplines required for analysis, understanding, problem solving, as well as for successful implementation of principles and techniques of informatics;
+Extension of knowledge in informatics by using advanced principles and techniques in the field of computer science and information technologies;
+Preparation for successful application of information techniques in practice;
+Preparation for further development of knowledge, as well as theoretical and practical background for acquiring complex contents in the field of informatics i.e. further studies;
+Development of high-level abstract, analytical and synthetic, logical thinking and understanding of different levels of abstraction in the domain of informatics;
+Development of an initiative and the ability to independently solve problems using computers, by applying appropriate principles and techniques of informatics.</DegreeProgrammeInformation>
+        <DegreeProgrammeTitle>Informatics</DegreeProgrammeTitle>
+        <DegreeUnitCode>I</DegreeUnitCode>
+        <offeredAt rdf:resource="&ects;provider2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#degreeProgramme8 -->
+
+    <owl:NamedIndividual rdf:about="&ects;degreeProgramme8">
+        <rdf:type rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <DegreeProgrammeTitle>Mathematics</DegreeProgrammeTitle>
+        <Qualification>Bachelor with Honours in Mathematics Teaching</Qualification>
+        <DegreeUnitCode>M</DegreeUnitCode>
+        <DegreeProgrammeInformation>The purpose and the role of this programme is to provide an adequate base of knowledge required to successfully undertake the master academic studies in the field of pure mathematics or teaching of mathematics. In addition, due to sufficient number of courses in the MPP group, this study programme educates future teachers capable of applying modern methodological principles and techniques of educational technology in the preparation and teaching of mathematics in primary and secondary schools.
+Introduction to the foundations of mathematical disciplines, roles and relationships between subfields of mathematics, as well as basic objects, concepts and methods of the disciplines studied;
+Acquisition of basic knowledge of key mathematical theories and structures, with special emphasis on the theory of functions, differential equations, topology, general and linear algebra, group theory, rings and fields, combinatorics, axiomatic approach to geometry and the basics of numerical mathematics and probability theory and statistics;
+Preparation for further knowledge upgrade, as a theoretical basis for adopting the more advanced and complex mathematical theories, but also as a basis for applying the acquired knowledge in mathematical modelling of practical problems and methodical transformation of contents learned in the classroom practice;
+High level of development of the abstract, as well as analytical and synthetic logical thinking and mathematical understanding of the different levels of abstraction;
+Developing initiative and ability to independently solve problems and critical approach to the analysis of the logical correctness of solutions to mathematical problems;
+Adoption and practice of methodological, didactic and psychological processes necessary for successful teaching of mathematics in schools, and the acquisition and practice routines in that direction.</DegreeProgrammeInformation>
+        <offeredAt rdf:resource="&ects;provider2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#degreeProgramme9 -->
+
+    <owl:NamedIndividual rdf:about="&ects;degreeProgramme9">
+        <rdf:type rdf:resource="&ects;DegreeProgrammeInstance"/>
+        <DegreeProgrammeInformation>The purpose of Bachelor with Honours in Geography study programme is educating students in recognized and well-established professions. Study programme provides competencies, which are desirable and useful to society. Geoinformatics and Geoecology are interdisciplinary sciences, which study interaction between biotic and abiotic factors within one geographical space.  Spatial problems related to relief, hydrology, climate, soil and other abiotic factors of a geographical space are related to biotic and anthropogenic component and make the core study subject of the study programmes of Bachelor with Honours in Geography – Geoinformatics or Bachelor with Honours in Geography – Geoecology.
+
+Being interdisciplinary sciences, study programmes within the Bachelor with Honours in Geography orientation, use various up-to-date scientific-research methods belonging to Geography and other related natural sciences which share the common feature of being applicable in one geographical space. Students will be trained to use research methods related to applied disciplines in Geography but also those in Biology and Chemistry. Field research makes the basis for data collection within the Bachelor with Honours in Geography orientation. Various knowledge and competencies in multidisciplinary sciences like Geosciences, Informatics, Statistics and Mathematics are used in processing and analyzing the collected data. Students are trained to store the collected and analyzed data into systems and featured databases, which make the solid and long-lasting access to geodata. These data (collected or analyzed) can be shown through visual methods by applying cartographic methods and solutions as well as modern information technologies (Geographic Information Systems). Students will be able to clearly and accurately present the results and use them in proposing solutions to problems existing in a geographical space.
+
+During the course of four years of education in bachelor academic studies, students of Bachelor with Honours in Geography orientation go through two formal phases. During the first three years they acquire knowledge in Geosciences, while in the fourth year they need to choose one of two offered modules Bachelor with Honours in Geography – Geoinformatics or Bachelor with Honours in Geography – Geoecology. During the fourth year, students obtain knowledge specific to the module chosen.
+
+The purpose of the study programme is in line with the main tasks and goals of the Faculty of Sciences and Department of Geography, Tourism and Hotel Management.
+
+Goals of the study programme comprise competences and academic skills together with methods used in acquiring them. They also include creative skills development and mastering specific practical skills needed to work as a Bachelor with Honours in Geography.
+
+Goals of the study programme are in line with the main tasks and goals of the higher education institution which conducts the particular study programme.
+
+Main goals of the study programme Bachelor with Honours in Geography – Geoinformatics and Bachelor with Honours in Geography – Geoecology are based on:
+
+1. Acquiring methods for identifying problems in geographical space;
+
+2. Ability to use analytic-synthetic approach to geoproblems;
+
+3. Mastering knowledge in multidisciplinary fields like Geoinformatics and Geoecology;
+
+4. Acquiring skills and knowledge for analyzing geospatial data by using specific methods of applied Geography disciplines;
+
+5. Acquiring skills and knowledge for analyzing geospatial data by using specific methods in Biology and Chemistry;
+
+6. Acquiring skills and knowledge for analyzing geospatial data by using specific methods in Informatics, Statistics and Mathematics;
+
+7. Knowledge on how to manipulate, store and interpret geodata;
+
+8. Acquiring knowledge used for visualization and graphical presentation of geodata.
+
+1. Acquiring methods for identifying problems in geographical space is one of the starting points in the Bachelor with Honours in Geography orientation. The aim is provide students with complex geographical knowledge which they will use to define and recognize problems occurring in geographical space.
+
+2. Enabling students to use analytic-synthetic approach to analyze problems in geospace represents a significant methodological link in interdisciplinary research.
+
+3. The aim is to enable students to master knowledge in fields like Geoinformatics and Geoecology, which are multidisciplinary in nature and build upon the basic geographical knowledge.
+
+4. The aim is to enable students to master the research methods used in state-of-the-art applied geographical research. Knowledge and skills are necessary in contemporary scientific research and analysis as well as in proposing solutions to problems occurring in geospace.
+
+5. The aim is to enable students master the research methods used in state-of-the-art applied research in Biology and Chemistry. Knowledge and skills are necessary in contemporary scientific research and analysis as well as in proposing solutions to problems occurring in geospace.
+
+6. The aim is to enable students master the research methods used in state-of-the-art applied research in Informatics, Statistics and Mathematics. Knowledge and skills are necessary in contemporary scientific research and analysis as well as in proposing solutions to problems occurring in geospace.
+
+7. Acquiring knowledge to manipulate, store and interpret geodata is an important part in understanding geospace together with its specific natural and social laws.
+
+8. Enabling students for visualization and graphical presentation of geodata collected through field research or through other analytical methods.</DegreeProgrammeInformation>
+        <DegreeUnitCode>G</DegreeUnitCode>
+        <DegreeProgrammeTitle>Geography</DegreeProgrammeTitle>
+        <Qualification> Bachelor with Honours in Geography</Qualification>
+        <offeredAt rdf:resource="&ects;provider2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#provider1 -->
+
+    <owl:NamedIndividual rdf:about="&ects;provider1">
+        <rdf:type rdf:resource="&ects;LearningOpportunityProvider"/>
+        <InstitutionCode>FTN</InstitutionCode>
+        <InstitutionName>Faculty of technical sciences</InstitutionName>
+        <offers rdf:resource="&ects;courseUnit1"/>
+        <offers rdf:resource="&ects;courseUnit2"/>
+        <offers rdf:resource="&ects;courseUnit3"/>
+        <offers rdf:resource="&ects;courseUnit4"/>
+        <offers rdf:resource="&ects;degreeProgramme1"/>
+        <offers rdf:resource="&ects;degreeProgramme2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#provider2 -->
+
+    <owl:NamedIndividual rdf:about="&ects;provider2">
+        <rdf:type rdf:resource="&ects;LearningOpportunityProvider"/>
+        <InstitutionCode>PMF</InstitutionCode>
+        <InstitutionName>Faculty of Sciences</InstitutionName>
+        <offers rdf:resource="&ects;courseUnit5"/>
+        <offers rdf:resource="&ects;courseUnit6"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDifferent"/>
+        <owl:distinctMembers rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ects;courseUnit1"/>
+            <rdf:Description rdf:about="&ects;courseUnit2"/>
+            <rdf:Description rdf:about="&ects;courseUnit3"/>
+            <rdf:Description rdf:about="&ects;courseUnit4"/>
+            <rdf:Description rdf:about="&ects;courseUnit5"/>
+            <rdf:Description rdf:about="&ects;courseUnit6"/>
+            <rdf:Description rdf:about="&ects;degreeProgramme1"/>
+            <rdf:Description rdf:about="&ects;degreeProgramme2"/>
+            <rdf:Description rdf:about="&ects;degreeProgramme3"/>
+            <rdf:Description rdf:about="&ects;degreeProgramme4"/>
+            <rdf:Description rdf:about="&ects;provider1"/>
+            <rdf:Description rdf:about="&ects;provider2"/>
+        </owl:distinctMembers>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDifferent"/>
+        <owl:distinctMembers rdf:parseType="Collection">
+            <rdf:Description rdf:about="&ects;courseUnit1"/>
+            <rdf:Description rdf:about="&ects;courseUnit2"/>
+            <rdf:Description rdf:about="&ects;courseUnit3"/>
+            <rdf:Description rdf:about="&ects;courseUnit4"/>
+            <rdf:Description rdf:about="&ects;courseUnit5"/>
+            <rdf:Description rdf:about="&ects;courseUnit6"/>
+            <rdf:Description rdf:about="&ects;degreeProgramme1"/>
+            <rdf:Description rdf:about="&ects;degreeProgramme2"/>
+            <rdf:Description rdf:about="&ects;degreeProgramme3"/>
+            <rdf:Description rdf:about="&ects;degreeProgramme4"/>
+            <rdf:Description rdf:about="&ects;degreeProgramme5"/>
+            <rdf:Description rdf:about="&ects;degreeProgramme6"/>
+            <rdf:Description rdf:about="&ects;degreeProgramme7"/>
+            <rdf:Description rdf:about="&ects;degreeProgramme8"/>
+            <rdf:Description rdf:about="&ects;degreeProgramme9"/>
+            <rdf:Description rdf:about="&ects;provider1"/>
+            <rdf:Description rdf:about="&ects;provider2"/>
+        </owl:distinctMembers>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+

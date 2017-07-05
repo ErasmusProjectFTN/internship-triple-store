@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <rdf:RDF xmlns="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#"
-     xml:base="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#"
+     xml:base="http://www.semanticweb.org/sasa/ontologies/2017/6/internship"
      xmlns:ects="http://www.semanticweb.org/nina/ontologies/2016/11/ects#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:ns="http://www.w3.org/2003/06/sw-vocab-status/ns#"
@@ -86,25 +86,6 @@
     
 
 
-    <!-- "http://www.semanticweb.org/sasa/ontologies/2017/6/internship#InternshipCode -->
-
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#InternshipCode">
-        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/identifier"/>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Internship"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Resource"/>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/internship#InternshipTitle -->
-
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#InternshipTitle">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Internship"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    </owl:DatatypeProperty>
-    
-
-
     <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/internship#CompanyAddress -->
 
     <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#CompanyAddress">
@@ -119,7 +100,7 @@
 
     <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#CompanyCode">
         <rdfs:domain rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Company"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Resource"/>
     </owl:DatatypeProperty>
     
 
@@ -164,6 +145,16 @@
     
 
 
+    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/internship#InternshipCode -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#InternshipCode">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/identifier"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Internship"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Resource"/>
+    </owl:DatatypeProperty>
+    
+
+
     <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/internship#InternshipDescription -->
 
     <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#InternshipDescription">
@@ -184,6 +175,15 @@
     
 
 
+    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/internship#InternshipTitle -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#InternshipTitle">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Internship"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
@@ -195,19 +195,19 @@
     
 
 
+    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Company -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Company">
+        <rdfs:comment>Opisuje kompaniju koja nudi praksu.</rdfs:comment>
+    </owl:Class>
+    
+
+
     <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Internship -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Internship">
         <rdfs:comment>Opisuje praksu.</rdfs:comment>
         <rdfs:label>Internship</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Company -->
-
-    <owl:Class rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Company">
-        <rdfs:comment>Opisuje kompaniju koja nudi praksu.</rdfs:comment>
     </owl:Class>
     
 
@@ -233,13 +233,12 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Company1">
         <rdf:type rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Company"/>
-        <ects:offers rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Internship1"/>
-        <internship:provides rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Internship1"/>
-        <internship:CompanyAddress rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Comp Adress</internship:CompanyAddress>
-        <internship:CompanyCode rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</internship:CompanyCode>
-        <internship:CompanyDescription rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Company description</internship:CompanyDescription>
-        <internship:CompanyName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Company 1</internship:CompanyName>
-        <internship:CompanyWebsite rdf:datatype="http://www.w3.org/2001/XMLSchema#string">www.website.org</internship:CompanyWebsite>
+        <provides rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Internship1"/>
+        <CompanyAddress rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Comp Adress</CompanyAddress>
+        <CompanyCode rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</CompanyCode>
+        <CompanyDescription rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Company description</CompanyDescription>
+        <CompanyName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Company 1</CompanyName>
+        <CompanyWebsite rdf:datatype="http://www.w3.org/2001/XMLSchema#string">www.website.org</CompanyWebsite>
     </owl:NamedIndividual>
     
 
@@ -247,12 +246,12 @@
     <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Internship1 -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Internship1">
-        <internship:isProvidedAt rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Company1"/>
-        <internship:requires rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#DifferentialCalculus"/>
-        <InternshipCode rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</InternshipCode>
+        <isProvidedAt rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Company1"/>
+        <requires rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#DifferentialCalculus"/>
+        <InternshipCode rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</InternshipCode>
+        <InternshipDescription rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Internship desc</InternshipDescription>
+        <InternshipPositionTitle rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Position</InternshipPositionTitle>
         <InternshipTitle rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Title internship</InternshipTitle>
-        <internship:InternshipDescription rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Internship desc</internship:InternshipDescription>
-        <internship:InternshipPositionTitle rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Position</internship:InternshipPositionTitle>
     </owl:NamedIndividual>
 </rdf:RDF>
 

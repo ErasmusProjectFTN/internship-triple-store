@@ -19,6 +19,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Created by Komp on 13.2.2017.
@@ -228,6 +232,26 @@ public class OntologyUtils {
         Individual ind = model.getIndividual(namespace + indName);
         DatatypeProperty dp = model.getDatatypeProperty(namespace + propName);
         ind.setPropertyValue(dp, model.createTypedLiteral(val));
+        return model;
+    }
+
+    public static OntModel modifyIndividual(Individual ind, OntModel model, HashMap<String, String> propertyValues, String namespace) {
+        Iterator<Entry<String, String>> it = propertyValues.entrySet().iterator();
+        DatatypeProperty dp = null;
+        while (it.hasNext()) {
+            Map.Entry<String, String> pair = (Map.Entry<String, String>)it.next();
+            String datatypeProperty = (String) pair.getKey();
+            String value = (String) pair.getValue();
+            dp = model.getDatatypeProperty(namespace + datatypeProperty);
+            ind.setPropertyValue(dp, model.createTypedLiteral(value));
+        }
+        return model;
+    }
+     public static OntModel removeIndividual(String className, OntModel model, String namespace, String id)
+    {
+        OntClass oclass = model.getOntClass(namespace + className);
+        Individual ind = model.getIndividual(namespace + id);
+        model.removeAll(ind, null, null);
         return model;
     }
 
