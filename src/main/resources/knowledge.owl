@@ -182,7 +182,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#DifferentialCalculus">
         <rdf:type rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#KnowledgeDomain"/>
         <knowledge:isContainedIn rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Mathemathics"/>
-        <knowledge:Code rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</knowledge:Code>
+        <knowledge:Code rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2</knowledge:Code>
         <knowledge:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Stuff</knowledge:Description>
         <knowledge:Name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Differential calculus</knowledge:Name>
     </owl:NamedIndividual>
@@ -193,7 +193,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Mathemathics">
         <rdf:type rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#KnowledgeDomain"/>
-        <knowledge:Code rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</knowledge:Code>
+        <knowledge:Code rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</knowledge:Code>
         <knowledge:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Deals with numbers and operations and stuff.</knowledge:Description>
         <knowledge:Name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mathemathics</knowledge:Name>
     </owl:NamedIndividual>

@@ -1,8 +1,10 @@
 package com.ErasmusProject.rest;
-import com.ErasmusProject.model.Internship;
-import com.ErasmusProject.model.InternshipSearch;
-import com.ErasmusProject.util.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.annotation.PostConstruct;
+import javax.ws.rs.core.Response;
 
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
@@ -11,13 +13,21 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.PostConstruct;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.io.IOException;
+import com.ErasmusProject.model.Internship;
+import com.ErasmusProject.model.InternshipSearch;
+import com.ErasmusProject.util.Conf;
+import com.ErasmusProject.util.OntologyUtils;
+import com.ErasmusProject.util.QueryResult;
+import com.ErasmusProject.util.QueryType;
+import com.ErasmusProject.util.QueryTypeConverter;
+import com.ErasmusProject.util.StringUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * 
@@ -65,7 +75,7 @@ public class InternshipStore {
 	 * Add an internship
 	 * */
 	@RequestMapping(method = RequestMethod.POST, value="/addInternship")
-	public String addInternship(@RequestParam(value="InternshipCode", required=true) String identifier,
+	public Internship addInternship(@RequestParam(value="InternshipCode", required=true) String identifier,
 								@RequestParam(value="InternshipTitle", required=true) String title,
                                 @RequestParam(value="InternshipPositionTitle", required=false) String posTitle,
                                 @RequestParam(value="InternshipDescription", required=false) String description)
@@ -74,8 +84,8 @@ public class InternshipStore {
 						+"INSERT DATA"
 						+"{" 
 						+"  int:" + identifier + " int:InternshipCode \"" + identifier.replaceAll("[\\t\\n\\r]","") + "\" ;"
-                        +"  int:" + identifier + " int:InternshipPositionTitle \"" + posTitle.replaceAll("[\\t\\n\\r]","") + "\" ;"
-                        +"  int:" + identifier + " int:InternshipTitle \"" + title.replaceAll("[\\t\\n\\r]","") + "\" ;"
+                        +"                         int:InternshipPositionTitle \"" + posTitle.replaceAll("[\\t\\n\\r]","") + "\" ;"
+                        +"                         int:InternshipTitle \"" + title.replaceAll("[\\t\\n\\r]","") + "\" ;"
 						+"  					   int:InternshipDescription \"" + description.replaceAll("[\\t\\n\\r]"," ") + "\" ."
 						+"}";
 
@@ -87,7 +97,7 @@ public class InternshipStore {
 			return null;
 		}
 
-		return "SUCCESS";
+		return new Internship(title,identifier,"","");
 	}
 	@RequestMapping(method = RequestMethod.POST, value="/modifyDegreeProgramme")
     public Internship modifyInternship(@RequestParam(value="InternshipCode", required=true) String identifier,

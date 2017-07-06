@@ -235,7 +235,7 @@
         <rdf:type rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Company"/>
         <provides rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Internship1"/>
         <CompanyAddress rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Comp Adress</CompanyAddress>
-        <CompanyCode rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</CompanyCode>
+        <CompanyCode rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</CompanyCode>
         <CompanyDescription rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Company description</CompanyDescription>
         <CompanyName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Company 1</CompanyName>
         <CompanyWebsite rdf:datatype="http://www.w3.org/2001/XMLSchema#string">www.website.org</CompanyWebsite>
