@@ -2,6 +2,7 @@ package com.ErasmusProject.rest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.core.Response;
@@ -45,7 +46,7 @@ public class InternshipStore {
 	 @Autowired
 	 private Conf conf;
 
-	 public static HashMap<String, SimilarityValue> utilityMatrix = new HashMap<>();
+	 public static HashMap<String, ArrayList<SimilarityValue>> utilityMatrix = new HashMap<>();
 	
     @PostConstruct
     public void initFuseki()
@@ -276,37 +277,16 @@ public class InternshipStore {
         return institutions;
     }
     @RequestMapping(method = RequestMethod.GET, value="/getRecommendation")
-    public ArrayList<Internship> getRecommendation()
-    {
-        ArrayList<String> namespaces = new ArrayList<String>();
-        ArrayList<QueryResult> retVal = null;
-        namespaces.add(StringUtils.namespaceInternship);
-        namespaces.add(StringUtils.namespaceW3c);
-
-        retVal = queryInternships("InternshipCode", QueryType.PREDICATE);
-
-        ArrayList<Internship> institutions = new ArrayList<>();
-
-       String InternshipCode="", InternshipTitle="", InternshipDescription="", InternshipPositionTitle="";        
-        ArrayList<QueryResult> results = new ArrayList<QueryResult>();
-
-
-        for (QueryResult queryResult : retVal) {
-            InternshipCode = queryResult.getSubject();
-            results = query(InternshipCode, QueryType.SUBJECT);
-            for (QueryResult queryResult2 : results) {
-                if (queryResult2.getPredicate().equals("InternshipCode"))
-                    InternshipCode = queryResult2.getObject();
-                else if (queryResult2.getPredicate().equals("InternshipTitle"))
-                    InternshipTitle = queryResult2.getObject();
-                else if (queryResult2.getPredicate().equals("InternshipDescription"))
-                    InternshipDescription = queryResult2.getObject();
-                else if (queryResult2.getPredicate().equals("InternshipPositionTitle"))
-                    InternshipPositionTitle = queryResult2.getObject();
-            }
-            institutions.add(new Internship(InternshipTitle,InternshipCode , InternshipDescription, InternshipPositionTitle));
+    public ArrayList<Internship> getRecommendation(@RequestParam("identifier") String val)
+    {   ArrayList<Internship> institutions = new ArrayList<>();
+        LinkedHashMap<String, Double> ret = InternshipRecommendation.recommendInternshipforProgramme(val);
+        int pos=ret.size();
+        if(pos>1){
+        String recommendationCode1 = new ArrayList<String>(ret.keySet()).get(pos-1);
+        String recommendationCode2 = new ArrayList<String>(ret.keySet()).get(pos-2);
+        institutions.add(getInternship(recommendationCode1));
+        institutions.add(getInternship(recommendationCode2));
         }
-
         return institutions;
     }
     @RequestMapping(method = RequestMethod.GET, value="/searchInternships")
