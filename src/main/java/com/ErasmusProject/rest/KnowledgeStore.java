@@ -2,6 +2,8 @@ package com.ErasmusProject.rest;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
@@ -298,5 +300,85 @@ public class KnowledgeStore {
             institutions.add(new Knowledge(Code,descr, labo, Name,notcont,notlit,papp,rec));
         }
         return institutions;
+    }
+    @RequestMapping(method = RequestMethod.GET, value="/getKnowledgeOfProgrammes")
+    public HashMap<String,ArrayList<Knowledge>> getKnowledgeOfProgrammes()
+    {
+        ArrayList<String> namespaces = new ArrayList<String>();
+        ArrayList<QueryResult> retVal = null;
+        namespaces.add(StringUtils.namespaceEcts);
+        namespaces.add(StringUtils.namespaceW3c);
+        namespaces.add(StringUtils.namespaceKnowledge);
+        retVal = queryEcts("DegreeUnitCode", QueryType.PREDICATE);
+
+        HashMap<String,ArrayList<Knowledge>> degreeProgrammes = new HashMap<>();
+
+        String identifier="",courseIdentifier,knowledgeIdentifier;
+        //Double credits = -1.0;
+        ArrayList<QueryResult> results = new ArrayList<QueryResult>();
+        ArrayList<Knowledge> know= new ArrayList<Knowledge>();
+
+        for (QueryResult queryResult : retVal) {
+            know= new ArrayList<Knowledge>();
+            identifier = queryResult.getSubject();
+            results = queryEcts(identifier, QueryType.SUBJECT);
+            for (QueryResult queryResult2 : results) {
+                if (queryResult2.getPredicate().equals("DegreeUnitCode"))
+                    identifier = queryResult2.getObject();
+                else if (queryResult2.getPredicate().equals("contains")){
+                    courseIdentifier = queryResult2.getObject();
+
+                    String subject = "<" + StringUtils.namespaceEcts + courseIdentifier + ">";
+                    
+                    ArrayList<QueryResult> results2 =  OntologyUtils.formatedSelect(StringUtils.URLquery, String.format(StringUtils.sparqlTemplate,subject,"?p","?o","?p","\""+StringUtils.namespaceKnowledge +"\""), namespaces, QueryType.SUBJECT, courseIdentifier);
+                    
+                    for (QueryResult queryResult3 : results2) {
+                        if (queryResult3.getPredicate().equals("CourseUnitCode"))
+                            courseIdentifier = queryResult3.getObject();
+                        else if (queryResult3.getPredicate().equals("teaches")){
+                            knowledgeIdentifier=queryResult3.getObject();
+                            ArrayList<QueryResult> results3 = query(queryResult3.getObject(), QueryType.SUBJECT);
+                            for(QueryResult queryResult4 :results3){
+                                if (queryResult4.getPredicate().equals("Code"))
+                                    knowledgeIdentifier = queryResult4.getObject();
+
+                                know.add(getKnowledge(knowledgeIdentifier));
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            degreeProgrammes.put(identifier, know);
+        }
+        return degreeProgrammes;
+    }
+    public ArrayList<QueryResult> queryEcts(@RequestParam("value") String val,
+            @RequestParam("type") QueryType type)
+    {
+
+        ArrayList<String> namespaces = new ArrayList<String>();
+        ArrayList<QueryResult> retVal = null;
+        namespaces.add(StringUtils.namespaceEcts);
+        namespaces.add(StringUtils.namespaceW3c);
+        namespaces.add(StringUtils.namespaceKnowledge);
+
+
+        switch(type)
+        {
+        case SUBJECT:
+            String subject = "<" + StringUtils.namespaceEcts + val + ">";
+            retVal = OntologyUtils.formatedSelect(StringUtils.URLquery, String.format(StringUtils.sparqlTemplate,subject,"?p","?o","?p","\""+StringUtils.namespaceEcts +"\""), namespaces, type, val);
+            break;
+        case PREDICATE:
+            String predicate = "<" + StringUtils.namespaceEcts + val + ">";
+            retVal = OntologyUtils.formatedSelect(StringUtils.URLquery, String.format(StringUtils.sparqlTemplate,"?s",predicate,"?o","?s","\""+StringUtils.namespaceEcts +"\""), namespaces, type, val);
+            break;
+        case OBJECT:
+            retVal = OntologyUtils.formatedSelect(StringUtils.URLquery, String.format(StringUtils.sparqlTemplate,"?s","?p","\"" + val + "\"","?p","\""+StringUtils.namespaceEcts +"\""), namespaces, type, val);
+            break;
+        }
+
+        return retVal;
     }
 }

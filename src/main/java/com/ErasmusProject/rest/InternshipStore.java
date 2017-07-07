@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ErasmusProject.model.Internship;
 import com.ErasmusProject.model.InternshipSearch;
+import com.ErasmusProject.model.Knowledge;
+import com.ErasmusProject.recommendation.InternshipRecommendation;
+import com.ErasmusProject.recommendation.InternshipRecommendation.SimilarityValue;
 import com.ErasmusProject.util.Conf;
 import com.ErasmusProject.util.OntologyUtils;
 import com.ErasmusProject.util.QueryResult;
@@ -41,7 +44,8 @@ public class InternshipStore {
 
 	 @Autowired
 	 private Conf conf;
-	
+
+	 public static HashMap<String, SimilarityValue> utilityMatrix = new HashMap<>();
 	
     @PostConstruct
     public void initFuseki()
@@ -58,7 +62,11 @@ public class InternshipStore {
         	base.add(student);
         	base.add(knowledge);
         	base.add(internship);
-            OntologyUtils.reloadModel(base,StringUtils.URL);              
+            OntologyUtils.reloadModel(base,StringUtils.URL);           
+            
+
+            InternshipRecommendation i = new InternshipRecommendation();
+            utilityMatrix = i.generateUtilityMatrixMatrix();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -223,6 +231,52 @@ public class InternshipStore {
     }
     @RequestMapping(method = RequestMethod.GET, value="/getInternships")
     public ArrayList<Internship> getInternships()
+    {
+        ArrayList<String> namespaces = new ArrayList<String>();
+        ArrayList<QueryResult> retVal = null;
+        namespaces.add(StringUtils.namespaceInternship);
+        namespaces.add(StringUtils.namespaceW3c);
+
+        retVal = queryInternships("InternshipCode", QueryType.PREDICATE);
+
+        ArrayList<Internship> institutions = new ArrayList<>();
+
+       String InternshipCode="", InternshipTitle="", InternshipDescription="", InternshipPositionTitle="";        
+        ArrayList<QueryResult> results = new ArrayList<QueryResult>();
+        ArrayList<Knowledge> knowledge;
+        String knowledgeCode="";
+        for (QueryResult queryResult : retVal) {
+            knowledge=new ArrayList<Knowledge>();
+            InternshipCode = queryResult.getSubject();
+            results = query(InternshipCode, QueryType.SUBJECT);
+            for (QueryResult queryResult2 : results) {
+                if (queryResult2.getPredicate().equals("InternshipCode"))
+                    InternshipCode = queryResult2.getObject();
+                else if (queryResult2.getPredicate().equals("InternshipTitle"))
+                    InternshipTitle = queryResult2.getObject();
+                else if (queryResult2.getPredicate().equals("InternshipDescription"))
+                    InternshipDescription = queryResult2.getObject();
+                else if (queryResult2.getPredicate().equals("InternshipPositionTitle"))
+                    InternshipPositionTitle = queryResult2.getObject();
+                else if (queryResult2.getPredicate().equals("requires")){
+                    KnowledgeStore ks= new KnowledgeStore();
+                    ArrayList<QueryResult> results2 = ks.query(queryResult2.getObject().split("#")[1], QueryType.SUBJECT);
+                    for(QueryResult queryResult3 :results2){
+                        if (queryResult3.getPredicate().equals("Code"))
+                            knowledgeCode = queryResult3.getObject();
+
+                        knowledge.add(ks.getKnowledge(knowledgeCode));
+                        break;
+                    }
+                }
+            }
+            institutions.add(new Internship(InternshipTitle,InternshipCode , InternshipDescription, InternshipPositionTitle,knowledge));
+        }
+
+        return institutions;
+    }
+    @RequestMapping(method = RequestMethod.GET, value="/getRecommendation")
+    public ArrayList<Internship> getRecommendation()
     {
         ArrayList<String> namespaces = new ArrayList<String>();
         ArrayList<QueryResult> retVal = null;

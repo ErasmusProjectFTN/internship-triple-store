@@ -1,11 +1,13 @@
 package com.ErasmusProject.model;
 
+import java.util.ArrayList;
+
 public class Internship {
     private String InternshipTitle;
     private String InternshipCode;
     private String InternshipDescription;
     private String InternshipPositionTitle;
-   
+    private ArrayList<Knowledge> knowledge;
     public Internship() {
         super();
     }
@@ -16,8 +18,19 @@ public class Internship {
         InternshipCode = internshipCode;
         InternshipDescription = internshipDescription;
         InternshipPositionTitle = internshipPositionTitle;
+        setKnowledge(new ArrayList<Knowledge>());
     }
     
+    public Internship(String internshipTitle, String internshipCode,
+            String internshipDescription, String internshipPositionTitle,
+            ArrayList<Knowledge> knowledge) {
+        super();
+        InternshipTitle = internshipTitle;
+        InternshipCode = internshipCode;
+        InternshipDescription = internshipDescription;
+        InternshipPositionTitle = internshipPositionTitle;
+        this.setKnowledge(knowledge);
+    }
     public String getInternshipTitle() {
         return InternshipTitle;
     }
@@ -41,6 +54,12 @@ public class Internship {
     }
     public void setInternshipPositionTitle(String internshipPositionTitle) {
         InternshipPositionTitle = internshipPositionTitle;
+    }
+    public ArrayList<Knowledge> getKnowledge() {
+        return knowledge;
+    }
+    public void setKnowledge(ArrayList<Knowledge> knowledge) {
+        this.knowledge = knowledge;
     }
     @Override
     public String toString() {

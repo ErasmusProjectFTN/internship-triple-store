@@ -243,6 +243,18 @@
     
 
 
+    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Company2 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Company2">
+        <rdf:type rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Company"/>
+        <provides rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Internship2"/>
+        <CompanyCode rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2</CompanyCode>
+        <CompanyDescription rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Is a test company</CompanyDescription>
+        <CompanyName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Company2</CompanyName>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Internship1 -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Internship1">
@@ -252,6 +264,19 @@
         <InternshipDescription rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Internship desc</InternshipDescription>
         <InternshipPositionTitle rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Position</InternshipPositionTitle>
         <InternshipTitle rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Title internship</InternshipTitle>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Internship2 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Internship2">
+        <rdf:type rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Internship"/>
+        <isProvidedAt rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Company2"/>
+        <requires rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Java"/>
+        <InternshipCode rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2</InternshipCode>
+        <InternshipDescription rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Java stuff</InternshipDescription>
+        <InternshipTitle rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Internship2</InternshipTitle>
     </owl:NamedIndividual>
 </rdf:RDF>
 

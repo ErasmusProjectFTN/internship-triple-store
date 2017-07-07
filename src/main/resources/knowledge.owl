@@ -72,7 +72,7 @@
 
     <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Code">
         <rdfs:domain rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#KnowledgeDomain"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     </owl:DatatypeProperty>
     
 
@@ -177,6 +177,22 @@
     
 
 
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#courseUnit1 -->
+
+    <rdf:Description rdf:about="http://www.semanticweb.org/nina/ontologies/2016/11/ects#courseUnit1">
+        <knowledge:teaches rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#DifferentialCalculus"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#courseUnit5 -->
+
+    <rdf:Description rdf:about="http://www.semanticweb.org/nina/ontologies/2016/11/ects#courseUnit5">
+        <knowledge:teaches rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Java"/>
+    </rdf:Description>
+    
+
+
     <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#DifferentialCalculus -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#DifferentialCalculus">
@@ -189,6 +205,18 @@
     
 
 
+    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Java -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Java">
+        <rdf:type rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#KnowledgeDomain"/>
+        <knowledge:isContainedIn rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#OOP"/>
+        <knowledge:Code rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4</knowledge:Code>
+        <knowledge:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Java programming language</knowledge:Description>
+        <knowledge:Name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Java</knowledge:Name>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Mathemathics -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Mathemathics">
@@ -196,6 +224,18 @@
         <knowledge:Code rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</knowledge:Code>
         <knowledge:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Deals with numbers and operations and stuff.</knowledge:Description>
         <knowledge:Name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mathemathics</knowledge:Name>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#OOP -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#OOP">
+        <rdf:type rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#KnowledgeDomain"/>
+        <knowledge:Code rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3</knowledge:Code>
+        <knowledge:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Object oriented programming</knowledge:Description>
+        <knowledge:LaboratoryRequirements rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Computers</knowledge:LaboratoryRequirements>
+        <knowledge:Name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">OOP</knowledge:Name>
     </owl:NamedIndividual>
 </rdf:RDF>
 
