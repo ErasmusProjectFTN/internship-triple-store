@@ -87,7 +87,8 @@ public class InternshipStore {
 	public Internship addInternship(@RequestParam(value="InternshipCode", required=true) String identifier,
 								@RequestParam(value="InternshipTitle", required=true) String title,
                                 @RequestParam(value="InternshipPositionTitle", required=false) String posTitle,
-                                @RequestParam(value="InternshipDescription", required=false) String description)
+                                @RequestParam(value="InternshipDescription", required=false) String description,
+                                @RequestParam(value="Company", required=true) String Company)
 	{
 		String query = "PREFIX int: <" + StringUtils.namespaceInternship + "> "
 						+"INSERT DATA"
@@ -105,6 +106,14 @@ public class InternshipStore {
 			e.printStackTrace();
 			return null;
 		}
+        query = "SELECT ?s WHERE {?s <" + StringUtils.namespaceInternship + "CompanyCode> \""+Company+"\"}";
+        ResultSet result = OntologyUtils.execSelect(StringUtils.URLquery, query);
+        
+        QuerySolution soln = result.next();
+        String identifierCompany = soln.get("s").toString().replaceAll(StringUtils.namespaceInternship, "");
+        
+        query = "INSERT DATA{<"+StringUtils.namespaceInternship + identifierCompany+"> <"+StringUtils.namespaceInternship+"provides> <"+StringUtils.namespaceInternship+identifier+">}";
+        OntologyUtils.execUpdate(StringUtils.URLupdate, query);
 
 		return new Internship(title,identifier,"","");
 	}
