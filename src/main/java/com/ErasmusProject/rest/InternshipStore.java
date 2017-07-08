@@ -150,6 +150,7 @@ public class InternshipStore {
         namespaces.add(StringUtils.namespaceInternship);
         namespaces.add(StringUtils.namespaceW3c);
 
+        ArrayList<Knowledge> knowledge=new ArrayList<Knowledge>();
         // get programme specification ids
         String query = "SELECT ?s WHERE {?s <" + StringUtils.namespaceInternship + "InternshipCode> \""+InternshipCode+"\"}";
         System.out.println(query);
@@ -163,6 +164,7 @@ public class InternshipStore {
         String InternshipTitle = "";
         String InternshipDescription = "";
         String InternshipPositionTitle = "";
+        String knowledgeCode="";
 
         // get programme instance data
         retVal = query(identifier, QueryType.SUBJECT);
@@ -173,8 +175,19 @@ public class InternshipStore {
                 InternshipDescription = queryResult2.getObject();
             else if (queryResult2.getPredicate().equals("InternshipPositionTitle"))
                 InternshipPositionTitle = queryResult2.getObject();
+            else if (queryResult2.getPredicate().equals("requires")){
+                KnowledgeStore ks= new KnowledgeStore();
+                ArrayList<QueryResult> results2 = ks.query(queryResult2.getObject().split("#")[1], QueryType.SUBJECT);
+                for(QueryResult queryResult3 :results2){
+                    if (queryResult3.getPredicate().equals("Code"))
+                        knowledgeCode = queryResult3.getObject();
+
+                    knowledge.add(ks.getKnowledge(knowledgeCode));
+                    break;
+                }
+            }
         }
-        return new Internship(InternshipTitle,InternshipCode,InternshipDescription,InternshipPositionTitle);
+        return new Internship(InternshipTitle,InternshipCode,InternshipDescription,InternshipPositionTitle,knowledge);
     }
     @RequestMapping(method = RequestMethod.GET, value = "/queryInternships")
     public ArrayList<QueryResult> queryInternships(@RequestParam("value") String val,
@@ -245,8 +258,10 @@ public class InternshipStore {
        String InternshipCode="", InternshipTitle="", InternshipDescription="", InternshipPositionTitle="";        
         ArrayList<QueryResult> results = new ArrayList<QueryResult>();
         ArrayList<Knowledge> knowledge;
-        String knowledgeCode="";
+
         for (QueryResult queryResult : retVal) {
+            InternshipCode=""; InternshipTitle=""; InternshipDescription=""; InternshipPositionTitle="";      
+            String knowledgeCode="";
             knowledge=new ArrayList<Knowledge>();
             InternshipCode = queryResult.getSubject();
             results = query(InternshipCode, QueryType.SUBJECT);
@@ -279,13 +294,17 @@ public class InternshipStore {
     @RequestMapping(method = RequestMethod.GET, value="/getRecommendation")
     public ArrayList<Internship> getRecommendation(@RequestParam("identifier") String val)
     {   ArrayList<Internship> institutions = new ArrayList<>();
+    InternshipRecommendation i = new InternshipRecommendation();
+    utilityMatrix=i.generateUtilityMatrixMatrix();
         LinkedHashMap<String, Double> ret = InternshipRecommendation.recommendInternshipforProgramme(val);
         int pos=ret.size();
-        if(pos>1){
+        if(pos>2){
         String recommendationCode1 = new ArrayList<String>(ret.keySet()).get(pos-1);
         String recommendationCode2 = new ArrayList<String>(ret.keySet()).get(pos-2);
+        String recommendationCode3 = new ArrayList<String>(ret.keySet()).get(pos-3);
         institutions.add(getInternship(recommendationCode1));
         institutions.add(getInternship(recommendationCode2));
+        institutions.add(getInternship(recommendationCode3));
         }
         return institutions;
     }

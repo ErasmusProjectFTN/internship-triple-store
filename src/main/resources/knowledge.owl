@@ -185,11 +185,45 @@
     
 
 
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#courseUnit3 -->
+
+    <rdf:Description rdf:about="http://www.semanticweb.org/nina/ontologies/2016/11/ects#courseUnit3">
+        <knowledge:teaches rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Algebra"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#courseUnit4 -->
+
+    <rdf:Description rdf:about="http://www.semanticweb.org/nina/ontologies/2016/11/ects#courseUnit4">
+        <knowledge:teaches rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#English"/>
+    </rdf:Description>
+    
+
+
     <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#courseUnit5 -->
 
     <rdf:Description rdf:about="http://www.semanticweb.org/nina/ontologies/2016/11/ects#courseUnit5">
         <knowledge:teaches rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Java"/>
     </rdf:Description>
+    
+
+
+    <!-- http://www.semanticweb.org/nina/ontologies/2016/11/ects#courseUnit6 -->
+
+    <rdf:Description rdf:about="http://www.semanticweb.org/nina/ontologies/2016/11/ects#courseUnit6">
+        <knowledge:teaches rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Web"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Algebra -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Algebra">
+        <rdf:type rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#KnowledgeDomain"/>
+        <knowledge:Code rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5</knowledge:Code>
+        <knowledge:Name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Algebra</knowledge:Name>
+    </owl:NamedIndividual>
     
 
 
@@ -201,6 +235,16 @@
         <knowledge:Code rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2</knowledge:Code>
         <knowledge:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Stuff</knowledge:Description>
         <knowledge:Name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Differential calculus</knowledge:Name>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#English -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#English">
+        <rdf:type rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#KnowledgeDomain"/>
+        <knowledge:Code rdf:datatype="http://www.w3.org/2001/XMLSchema#string">6</knowledge:Code>
+        <knowledge:Name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">English</knowledge:Name>
     </owl:NamedIndividual>
     
 
@@ -236,6 +280,16 @@
         <knowledge:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Object oriented programming</knowledge:Description>
         <knowledge:LaboratoryRequirements rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Computers</knowledge:LaboratoryRequirements>
         <knowledge:Name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">OOP</knowledge:Name>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Web -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#Web">
+        <rdf:type rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#KnowledgeDomain"/>
+        <knowledge:Code rdf:datatype="http://www.w3.org/2001/XMLSchema#string">7</knowledge:Code>
+        <knowledge:Name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Web</knowledge:Name>
     </owl:NamedIndividual>
 </rdf:RDF>
 

@@ -3,7 +3,6 @@ package com.ErasmusProject.rest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
@@ -12,8 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ErasmusProject.model.Company;
-import com.ErasmusProject.model.CompanySearch;
+import com.ErasmusProject.model.Internship;
 import com.ErasmusProject.model.Knowledge;
 import com.ErasmusProject.model.KnowledgeSearch;
 import com.ErasmusProject.util.OntologyUtils;
@@ -380,5 +378,33 @@ public class KnowledgeStore {
         }
 
         return retVal;
+    }
+    @RequestMapping(method = RequestMethod.POST, value="/bindKnowledge")
+    public Knowledge bindKnowledge(@RequestParam("internship")String InternshipCode,
+            @RequestParam("Knowledge")String Code)
+    {   
+        System.out.println(InternshipCode);
+        System.out.println(Code);
+        
+        ArrayList<String> namespaces = new ArrayList<String>();
+        ArrayList<QueryResult> retVal = null;
+        namespaces.add(StringUtils.namespaceW3c);
+        namespaces.add(StringUtils.namespaceKnowledge);
+        
+        String query = "SELECT ?s WHERE {?s <" + StringUtils.namespaceKnowledge + "Code> \""+Code+"\"}";
+        ResultSet result = OntologyUtils.execSelect(StringUtils.URLquery, query);
+
+        QuerySolution soln = result.next();
+        String identifierKnowledge = soln.get("s").toString().replaceAll(StringUtils.namespaceKnowledge, "");
+
+        query = "SELECT ?s WHERE {?s <" + StringUtils.namespaceInternship + "InternshipCode> \""+InternshipCode+"\"}";
+        result = OntologyUtils.execSelect(StringUtils.URLquery, query);
+        
+        soln = result.next();
+        String identifierInternship = soln.get("s").toString().replaceAll(StringUtils.namespaceInternship, "");
+        
+        query = "INSERT DATA{<"+StringUtils.namespaceInternship + identifierInternship+"> <"+StringUtils.namespaceInternship+"requires> <"+StringUtils.namespaceKnowledge+identifierKnowledge+">}";
+        OntologyUtils.execUpdate(StringUtils.URLupdate, query);
+        return null;
     }
 }
