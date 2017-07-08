@@ -379,31 +379,47 @@ public class KnowledgeStore {
 
         return retVal;
     }
-    @RequestMapping(method = RequestMethod.POST, value="/bindKnowledge")
-    public Knowledge bindKnowledge(@RequestParam("internship")String InternshipCode,
-            @RequestParam("Knowledge")String Code)
+    @RequestMapping(method = RequestMethod.POST, value="/dependKnowledge")
+    public Knowledge dependKnowledge(@RequestParam("parentKnowledge")String parentKnowledge,
+            @RequestParam("sonKnowledge")String sonKnowledge)
     {   
-        System.out.println(InternshipCode);
-        System.out.println(Code);
         
-        ArrayList<String> namespaces = new ArrayList<String>();
-        ArrayList<QueryResult> retVal = null;
-        namespaces.add(StringUtils.namespaceW3c);
-        namespaces.add(StringUtils.namespaceKnowledge);
         
-        String query = "SELECT ?s WHERE {?s <" + StringUtils.namespaceKnowledge + "Code> \""+Code+"\"}";
+        String query = "SELECT ?s WHERE {?s <" + StringUtils.namespaceKnowledge + "Code> \""+parentKnowledge+"\"}";
         ResultSet result = OntologyUtils.execSelect(StringUtils.URLquery, query);
 
         QuerySolution soln = result.next();
-        String identifierKnowledge = soln.get("s").toString().replaceAll(StringUtils.namespaceKnowledge, "");
-
-        query = "SELECT ?s WHERE {?s <" + StringUtils.namespaceInternship + "InternshipCode> \""+InternshipCode+"\"}";
+        String identifierKnowledgeParent = soln.get("s").toString().replaceAll(StringUtils.namespaceKnowledge, "");
+        
+        query = "SELECT ?s WHERE {?s <" + StringUtils.namespaceKnowledge + "Code> \""+sonKnowledge+"\"}";
         result = OntologyUtils.execSelect(StringUtils.URLquery, query);
-        
+
         soln = result.next();
-        String identifierInternship = soln.get("s").toString().replaceAll(StringUtils.namespaceInternship, "");
+        String identifierKnowledgeSon = soln.get("s").toString().replaceAll(StringUtils.namespaceKnowledge, "");
+
+        query = "INSERT DATA{<"+StringUtils.namespaceKnowledge + identifierKnowledgeParent+"> <"+StringUtils.namespaceKnowledge+"dependsOn> <"+StringUtils.namespaceKnowledge+identifierKnowledgeSon+">}";
+        OntologyUtils.execUpdate(StringUtils.URLupdate, query);
+        return null;
+    }
+    @RequestMapping(method = RequestMethod.POST, value="/parentKnowledge")
+    public Knowledge parentKnowledge(@RequestParam("parentKnowledge")String parentKnowledge,
+            @RequestParam("sonKnowledge")String sonKnowledge)
+    {   
         
-        query = "INSERT DATA{<"+StringUtils.namespaceInternship + identifierInternship+"> <"+StringUtils.namespaceInternship+"requires> <"+StringUtils.namespaceKnowledge+identifierKnowledge+">}";
+        
+        String query = "SELECT ?s WHERE {?s <" + StringUtils.namespaceKnowledge + "Code> \""+parentKnowledge+"\"}";
+        ResultSet result = OntologyUtils.execSelect(StringUtils.URLquery, query);
+
+        QuerySolution soln = result.next();
+        String identifierKnowledgeParent = soln.get("s").toString().replaceAll(StringUtils.namespaceKnowledge, "");
+        
+        query = "SELECT ?s WHERE {?s <" + StringUtils.namespaceKnowledge + "Code> \""+sonKnowledge+"\"}";
+        result = OntologyUtils.execSelect(StringUtils.URLquery, query);
+
+        soln = result.next();
+        String identifierKnowledgeSon = soln.get("s").toString().replaceAll(StringUtils.namespaceKnowledge, "");
+
+        query = "INSERT DATA{<"+StringUtils.namespaceKnowledge + identifierKnowledgeParent+"> <"+StringUtils.namespaceKnowledge+"isContainedIn> <"+StringUtils.namespaceKnowledge+identifierKnowledgeSon+">}";
         OntologyUtils.execUpdate(StringUtils.URLupdate, query);
         return null;
     }
