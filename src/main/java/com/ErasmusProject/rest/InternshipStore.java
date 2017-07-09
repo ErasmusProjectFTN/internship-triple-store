@@ -66,6 +66,8 @@ public class InternshipStore {
             OntologyUtils.reloadModel(base,StringUtils.URL);           
             
 
+            KnowledgeStore ks=new KnowledgeStore();
+            ks.createKnowledgeMatrix();
             InternshipRecommendation i = new InternshipRecommendation();
             utilityMatrix = i.generateUtilityMatrixMatrix();
         } catch (IOException e) {

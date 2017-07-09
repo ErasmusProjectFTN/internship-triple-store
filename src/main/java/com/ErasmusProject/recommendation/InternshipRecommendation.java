@@ -11,6 +11,7 @@ import java.util.Map;
 
 import com.ErasmusProject.model.Internship;
 import com.ErasmusProject.model.Knowledge;
+import com.ErasmusProject.model.KnowledgeNode;
 import com.ErasmusProject.rest.InternshipStore;
 import com.ErasmusProject.rest.KnowledgeStore;
 
@@ -98,8 +99,21 @@ public class InternshipRecommendation {
                 for(Knowledge k:i.getKnowledge()){
                     if(programmes.get(key).containsKey(k.getCode()))
                         values1.put(k.getCode(),1.0);
-                    else
-                        values1.put(k.getCode(), 0.0);
+                    else{
+                        KnowledgeNode node = KnowledgeStore.knowledgeMatrix.get(k.getCode());
+                        boolean parent=false;
+                        for(String s:node.getParents().keySet()){
+                            if(programmes.get(key).containsKey(s)){
+                                parent=true;
+                                System.out.println("found parent");
+                                break;
+                            }
+                        }
+                        if(parent)
+                            values1.put(k.getCode(), 0.5);
+                        else
+                            values1.put(k.getCode(), 0.0);
+                    }
                     values2.put(k.getCode(), 1.0);
                 }
                 for(String str:programmes.get(key).keySet()){

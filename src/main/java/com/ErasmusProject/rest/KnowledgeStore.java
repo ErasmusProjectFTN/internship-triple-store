@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ErasmusProject.model.Internship;
 import com.ErasmusProject.model.Knowledge;
+import com.ErasmusProject.model.KnowledgeNode;
 import com.ErasmusProject.model.KnowledgeSearch;
 import com.ErasmusProject.util.OntologyUtils;
 import com.ErasmusProject.util.QueryResult;
@@ -23,6 +24,75 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 @RequestMapping("/knowledge")
 public class KnowledgeStore {
+    public static HashMap<String,KnowledgeNode> knowledgeMatrix;
+    
+    @RequestMapping(method = RequestMethod.POST, value="/createKnowledgeMatrix")
+    public HashMap<String,KnowledgeNode> createKnowledgeMatrix(){
+        ArrayList<String> namespaces = new ArrayList<String>();
+        ArrayList<QueryResult> retVal = null;
+        namespaces.add(StringUtils.namespaceKnowledge);
+        namespaces.add(StringUtils.namespaceW3c);
+
+        retVal = queryKnowledge("Code", QueryType.PREDICATE);
+
+        HashMap<String,KnowledgeNode> nodes = new HashMap<String,KnowledgeNode>();
+
+        String Code = "";
+        String identifier;
+        KnowledgeNode node;
+        ArrayList<QueryResult> results = new ArrayList<QueryResult>();
+
+
+        for (QueryResult queryResult : retVal) {
+            node=new KnowledgeNode();
+            Code = "";
+            identifier="";
+            Code = queryResult.getSubject();
+            results = query(Code, QueryType.SUBJECT);
+            for (QueryResult queryResult2 : results) {
+                if (queryResult2.getPredicate().equals("Code"))
+                    Code = queryResult2.getObject();
+                else if (queryResult2.getPredicate().equals("dependsOn")){
+                    identifier= queryResult2.getObject();
+                    String subject = "<" + StringUtils.namespaceKnowledge + identifier + ">";
+                    
+                    ArrayList<QueryResult> results2 =  OntologyUtils.formatedSelect(StringUtils.URLquery, String.format(StringUtils.sparqlTemplate,subject,"?p","?o","?p","\""+StringUtils.namespaceKnowledge +"\""), namespaces, QueryType.SUBJECT, identifier);
+                    
+                    for (QueryResult queryResult3 : results2) {
+                        if (queryResult3.getPredicate().equals("Code"))
+                            identifier = queryResult3.getObject();
+                   
+                    node.getDependsOn().put(identifier, null);
+                    }
+                }
+                else if (queryResult2.getPredicate().equals("isContainedIn")){
+                    identifier = queryResult2.getObject();
+                    String subject = "<" + StringUtils.namespaceKnowledge + identifier + ">";
+                    
+                    ArrayList<QueryResult> results2 =  OntologyUtils.formatedSelect(StringUtils.URLquery, String.format(StringUtils.sparqlTemplate,subject,"?p","?o","?p","\""+StringUtils.namespaceKnowledge +"\""), namespaces, QueryType.SUBJECT, identifier);
+                    
+                    for (QueryResult queryResult3 : results2) {
+                        if (queryResult3.getPredicate().equals("Code"))
+                            identifier = queryResult3.getObject();
+                   
+                    node.getParents().put(identifier, null);
+                    }
+                }
+            }
+            nodes.put(Code, node);
+        }
+        for(KnowledgeNode n:nodes.values()){
+            for(String s:n.getParents().keySet())
+                n.getParents().put(s, nodes.get(s));
+
+            for(String s:n.getDependsOn().keySet())
+                n.getDependsOn().put(s, nodes.get(s));
+        }
+        
+        knowledgeMatrix=nodes;
+        return knowledgeMatrix;
+    }
+    
     @RequestMapping(method = RequestMethod.POST, value="/addKnowledge")
     public Knowledge addKnowledge(@RequestParam(value="Code", required=true) String identifier,
                                 @RequestParam(value="Description", required=true) String description,
