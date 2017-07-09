@@ -421,6 +421,99 @@ public class KnowledgeStore {
         }
         return degreeProgrammes;
     }
+    @RequestMapping(method = RequestMethod.GET, value="/getKnowledgeOfProgramme")
+    public ArrayList<Knowledge> getKnowledgeOfProgramme(@RequestParam("value") String id)
+    {
+        ArrayList<String> namespaces = new ArrayList<String>();
+        namespaces.add(StringUtils.namespaceEcts);
+        namespaces.add(StringUtils.namespaceW3c);
+        namespaces.add(StringUtils.namespaceKnowledge);
+        String query = "SELECT ?s WHERE {?s <" + StringUtils.namespaceEcts + "DegreeUnitCode> \""+id+"\"}";
+        System.out.println(query);
+        ResultSet result = OntologyUtils.execSelect(StringUtils.URLquery, query);
+        System.out.println(result.hasNext());
+
+        QuerySolution soln = result.next();
+        String identifier = soln.get("s").toString().replaceAll(StringUtils.namespaceEcts, "");
+
+        String courseIdentifier,knowledgeIdentifier;
+
+        //Double credits = -1.0;
+        ArrayList<QueryResult> results = new ArrayList<QueryResult>();
+        ArrayList<Knowledge> know= new ArrayList<Knowledge>();
+            know= new ArrayList<Knowledge>();
+            results = queryEcts(identifier, QueryType.SUBJECT);
+            for (QueryResult queryResult2 : results) {
+                if (queryResult2.getPredicate().equals("DegreeUnitCode"))
+                    identifier = queryResult2.getObject();
+                else if (queryResult2.getPredicate().equals("contains")){
+                    courseIdentifier = queryResult2.getObject();
+
+                    String subject = "<" + StringUtils.namespaceEcts + courseIdentifier + ">";
+                    
+                    ArrayList<QueryResult> results2 =  OntologyUtils.formatedSelect(StringUtils.URLquery, String.format(StringUtils.sparqlTemplate,subject,"?p","?o","?p","\""+StringUtils.namespaceKnowledge +"\""), namespaces, QueryType.SUBJECT, courseIdentifier);
+                    
+                    for (QueryResult queryResult3 : results2) {
+                        if (queryResult3.getPredicate().equals("CourseUnitCode"))
+                            courseIdentifier = queryResult3.getObject();
+                        else if (queryResult3.getPredicate().equals("teaches")){
+                            knowledgeIdentifier=queryResult3.getObject();
+                            ArrayList<QueryResult> results3 = query(queryResult3.getObject(), QueryType.SUBJECT);
+                            for(QueryResult queryResult4 :results3){
+                                if (queryResult4.getPredicate().equals("Code"))
+                                    knowledgeIdentifier = queryResult4.getObject();
+
+                                know.add(getKnowledge(knowledgeIdentifier));
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        
+        return know;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value="/getKnowledgeOfCourse")
+    public ArrayList<Knowledge> getKnowledgeOfCourse(@RequestParam("value") String id)
+    {
+        ArrayList<String> namespaces = new ArrayList<String>();
+        namespaces.add(StringUtils.namespaceEcts);
+        namespaces.add(StringUtils.namespaceW3c);
+        namespaces.add(StringUtils.namespaceKnowledge);
+        String query = "SELECT ?s WHERE {?s <" + StringUtils.namespaceEcts + "CourseUnitCode> \""+id+"\"}";
+        System.out.println(query);
+        ResultSet result = OntologyUtils.execSelect(StringUtils.URLquery, query);
+        System.out.println(result.hasNext());
+
+        QuerySolution soln = result.next();
+        String identifier = soln.get("s").toString().replaceAll(StringUtils.namespaceEcts, "");
+
+        String knowledgeIdentifier;
+
+        //Double credits = -1.0;
+        ArrayList<QueryResult> results2 = new ArrayList<QueryResult>();
+        ArrayList<Knowledge> know= new ArrayList<Knowledge>();
+            String subject = "<" + StringUtils.namespaceEcts + identifier + ">";
+            results2 = OntologyUtils.formatedSelect(StringUtils.URLquery, String.format(StringUtils.sparqlTemplate,subject,"?p","?o","?p","\""+StringUtils.namespaceKnowledge +"\""), namespaces, QueryType.SUBJECT, identifier);
+            
+                    for (QueryResult queryResult3 : results2) {
+                        if (queryResult3.getPredicate().equals("teaches")){
+                            knowledgeIdentifier=queryResult3.getObject();
+                            ArrayList<QueryResult> results3 = query(knowledgeIdentifier, QueryType.SUBJECT);
+                            for(QueryResult queryResult4 :results3){
+                                if (queryResult4.getPredicate().equals("Code")){
+                                    knowledgeIdentifier = queryResult4.getObject();
+
+                                know.add(getKnowledge(knowledgeIdentifier));
+                                break;
+                                }
+                            }
+                        }
+                    }
+        System.out.println(know);
+        return know;
+    }
     public ArrayList<QueryResult> queryEcts(@RequestParam("value") String val,
             @RequestParam("type") QueryType type)
     {

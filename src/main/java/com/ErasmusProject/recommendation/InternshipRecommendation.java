@@ -18,7 +18,7 @@ import com.ErasmusProject.rest.KnowledgeStore;
 
 public class InternshipRecommendation {
     
-    public class SimilarityValue{
+    public static class SimilarityValue{
         private String programme;
         private String internship;
         private Double value;
@@ -46,7 +46,148 @@ public class InternshipRecommendation {
                     + internship + ", value=" + value + "]";
         }
     }
+    public static ArrayList<Internship> recommendInternshipforSearch(ArrayList<Internship> internships, String programmeCode, ArrayList<Knowledge> progK, ArrayList<Knowledge> collection, ArrayList<String> knowledge){
+        System.out.println(internships);
+        System.out.println(progK);
+        System.out.println(collection);
+        System.out.println(knowledge);
+        LinkedHashMap<Internship, Double> programmeMatrix=generateProgrammeMatrix(internships,programmeCode,progK);
+        LinkedHashMap<Internship, Double> courseMatrix=generateCourseMatrix(internships,collection);
+        LinkedHashMap<Internship, Double> knowledgeMatrix=generateKnowledgeMatrix(internships,knowledge);
+        
+        LinkedHashMap<Internship, Double> appropriateInternships = new LinkedHashMap<>();
+        for(Internship i: programmeMatrix.keySet())
+            if(appropriateInternships.containsKey(i))
+                appropriateInternships.put(i, appropriateInternships.get(i)+programmeMatrix.get(i));
+            else
+                appropriateInternships.put(i,programmeMatrix.get(i));
+        for(Internship i: courseMatrix.keySet())
+            if(appropriateInternships.containsKey(i))
+                appropriateInternships.put(i, appropriateInternships.get(i)+2*courseMatrix.get(i));
+            else
+                appropriateInternships.put(i,2*courseMatrix.get(i));
+        for(Internship i: knowledgeMatrix.keySet())
+            if(appropriateInternships.containsKey(i))
+                appropriateInternships.put(i, appropriateInternships.get(i)+3*knowledgeMatrix.get(i));
+            else
+                appropriateInternships.put(i,3*knowledgeMatrix.get(i));
+            
+        
+        List<Map.Entry<Internship, Double>> entries =
+                new ArrayList<Map.Entry<Internship, Double>>(appropriateInternships.entrySet());
+              Collections.sort(entries, new Comparator<Map.Entry<Internship, Double>>() {
+                public int compare(Map.Entry<Internship, Double> a, Map.Entry<Internship, Double> b){
+                  return b.getValue().compareTo(a.getValue());
+                }
+              });
+              LinkedHashMap<Internship, Double> sortedMap = new LinkedHashMap<Internship, Double>();
+              for (Map.Entry<Internship, Double> entry : entries) {
+                sortedMap.put(entry.getKey(), entry.getValue());
+              }
+        
+        return new ArrayList<Internship>(sortedMap.keySet());
+    }
     
+    private static LinkedHashMap<Internship, Double> generateKnowledgeMatrix(
+            ArrayList<Internship> internships, ArrayList<String> knowledge) {
+        LinkedHashMap<Internship, Double> utilityMatrix = new LinkedHashMap<Internship, Double>();
+        if(knowledge.size()==0)return utilityMatrix;
+        for(Internship i:internships){
+
+            HashMap<String, Double> values1 = new HashMap<>();
+            HashMap<String, Double> values2 = new HashMap<>();
+            Double value = 0.0;
+            SimilarityValue sv = new SimilarityValue();
+            sv.setInternship(i.getInternshipCode());
+            for(Knowledge k:i.getKnowledge()){
+                if(knowledge.contains(k.getCode()))
+                    values1.put(k.getCode(),1.0);
+                else{
+                    KnowledgeNode node = KnowledgeStore.knowledgeMatrix.get(k.getCode());
+                    boolean parent=false;
+                    for(String s:node.getParents().keySet()){
+                        if(knowledge.contains(s)){
+                            parent=true;
+                            System.out.println("found parent");
+                            break;
+                        }
+                    }
+                    if(parent)
+                        values1.put(k.getCode(), 0.5);
+                    else
+                        values1.put(k.getCode(), 0.0);
+                }
+                values2.put(k.getCode(), 1.0);
+            }
+            for(String str:knowledge){
+                if(!values1.containsKey(str)){
+                    values1.put(str, 1.0);
+                    values2.put(str, 0.0);
+                }
+            }
+            if(!values1.isEmpty())
+            value=cosineSimilarity(values1.values(), values2.values());
+            System.out.println(value);
+            sv.setValue(value);
+            utilityMatrix.put(i,sv.getValue());
+
+        }
+    return utilityMatrix;
+    }
+
+    private static LinkedHashMap<Internship, Double> generateCourseMatrix(
+            ArrayList<Internship> internships,
+            ArrayList<Knowledge> knowledge) {
+        LinkedHashMap<Internship, Double> utilityMatrix = new LinkedHashMap<Internship, Double>();
+        if(knowledge.size()==0)
+            return utilityMatrix;
+        
+        ArrayList<String> prog= new ArrayList<String>();
+        for(Knowledge k:knowledge)prog.add(k.getCode());
+        
+        for(Internship i:internships){
+
+            HashMap<String, Double> values1 = new HashMap<>();
+            HashMap<String, Double> values2 = new HashMap<>();
+            Double value = 0.0;
+            SimilarityValue sv = new SimilarityValue();
+            sv.setInternship(i.getInternshipCode());
+            for(Knowledge k:i.getKnowledge()){
+                if(prog.contains(k.getCode()))
+                    values1.put(k.getCode(),1.0);
+                else{
+                    KnowledgeNode node = KnowledgeStore.knowledgeMatrix.get(k.getCode());
+                    boolean parent=false;
+                    for(String s:node.getParents().keySet()){
+                        if(prog.contains(s)){
+                            parent=true;
+                            System.out.println("found parent");
+                            break;
+                        }
+                    }
+                    if(parent)
+                        values1.put(k.getCode(), 0.5);
+                    else
+                        values1.put(k.getCode(), 0.0);
+                }
+                values2.put(k.getCode(), 1.0);
+            }
+            for(String str:prog){
+                if(!values1.containsKey(str)){
+                    values1.put(str, 1.0);
+                    values2.put(str, 0.0);
+                }
+            }
+            if(!values1.isEmpty())
+            value=cosineSimilarity(values1.values(), values2.values());
+            System.out.println(value);
+            sv.setValue(value);
+            utilityMatrix.put(i,sv.getValue());
+
+        }
+    return utilityMatrix;
+    }
+
     public static LinkedHashMap<String, Double> recommendInternshipforProgramme(String programmeId){
         LinkedHashMap<String, Double> appropriateInternships = new LinkedHashMap<>();
         
@@ -55,7 +196,6 @@ public class InternshipRecommendation {
             }
                
         
-        System.out.println(appropriateInternships);
         //sort
         List<Map.Entry<String, Double>> entries =
                 new ArrayList<Map.Entry<String, Double>>(appropriateInternships.entrySet());
@@ -71,7 +211,55 @@ public class InternshipRecommendation {
         
         return sortedMap;
     }
+    private static LinkedHashMap<Internship, Double> generateProgrammeMatrix(ArrayList<Internship> internships, String programmeCode, ArrayList<Knowledge> progK){
+        ArrayList<String> prog= new ArrayList<String>();
+        for(Knowledge k:progK)prog.add(k.getCode());
+        LinkedHashMap<Internship, Double> utilityMatrix = new LinkedHashMap<Internship, Double>();
+        if(progK.size()==0)
+            return utilityMatrix;
+        for(Internship i:internships){
 
+            HashMap<String, Double> values1 = new HashMap<>();
+            HashMap<String, Double> values2 = new HashMap<>();
+            Double value = 0.0;
+            SimilarityValue sv = new SimilarityValue();
+            sv.setProgramme(programmeCode);
+            sv.setInternship(i.getInternshipCode());
+            for(Knowledge k:i.getKnowledge()){
+                if(prog.contains(k.getCode()))
+                    values1.put(k.getCode(),1.0);
+                else{
+                    KnowledgeNode node = KnowledgeStore.knowledgeMatrix.get(k.getCode());
+                    boolean parent=false;
+                    for(String s:node.getParents().keySet()){
+                        if(prog.contains(s)){
+                            parent=true;
+                            System.out.println("found parent");
+                            break;
+                        }
+                    }
+                    if(parent)
+                        values1.put(k.getCode(), 0.5);
+                    else
+                        values1.put(k.getCode(), 0.0);
+                }
+                values2.put(k.getCode(), 1.0);
+            }
+            for(String str:prog){
+                if(!values1.containsKey(str)){
+                    values1.put(str, 1.0);
+                    values2.put(str, 0.0);
+                }
+            }
+            if(!values1.isEmpty())
+            value=cosineSimilarity(values1.values(), values2.values());
+            System.out.println(value);
+            sv.setValue(value);
+            utilityMatrix.put(i,sv.getValue());
+
+        }
+    return utilityMatrix;
+    }
     public HashMap<String, ArrayList<SimilarityValue>> generateUtilityMatrixMatrix() {
         KnowledgeStore ks= new KnowledgeStore();
         HashMap<String, ArrayList<Knowledge>> programmesP = ks.getKnowledgeOfProgrammes();

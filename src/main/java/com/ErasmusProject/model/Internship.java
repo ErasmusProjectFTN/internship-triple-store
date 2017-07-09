@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Internship {
     private String InternshipTitle;
+    
     private String InternshipCode;
     private String InternshipDescription;
     private String InternshipPositionTitle;
@@ -67,5 +68,28 @@ public class Internship {
                 + ", InternshipCode=" + InternshipCode
                 + ", InternshipDescription=" + InternshipDescription
                 + ", InternshipPositionTitle=" + InternshipPositionTitle + "]";
+    }@Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((InternshipCode == null) ? 0 : InternshipCode.hashCode());
+        return result;
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Internship other = (Internship) obj;
+        if (InternshipCode == null) {
+            if (other.InternshipCode != null)
+                return false;
+        } else if (!InternshipCode.equals(other.InternshipCode))
+            return false;
+        return true;
     }
 }

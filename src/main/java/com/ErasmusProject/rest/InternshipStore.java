@@ -353,11 +353,15 @@ public class InternshipStore {
         ResultSet retVal = OntologyUtils.execSelect(StringUtils.URLquery, query);
 
         String identifier="", title="", description="", PositionTitle=""; 
+        ArrayList<Knowledge> knowledge ;
+        String knowledgeCode="";
         ArrayList<QueryResult> results = new ArrayList<QueryResult>();
         QuerySolution soln = null;
 
 
         while (retVal.hasNext()) {
+            identifier=""; title=""; description=""; PositionTitle=""; 
+            knowledge= new ArrayList<Knowledge>();
             soln = retVal.next();
             identifier = soln.get("s").toString().replaceAll(StringUtils.namespaceInternship, "");
             results = query(identifier, QueryType.SUBJECT);
@@ -370,9 +374,33 @@ public class InternshipStore {
                     PositionTitle = queryResult2.getObject();
                 else if (queryResult2.getPredicate().equals("InternshipTitle"))
                     title = queryResult2.getObject();
+                else if (queryResult2.getPredicate().equals("requires")){
+                    KnowledgeStore ks= new KnowledgeStore();
+                    ArrayList<QueryResult> results2 = ks.query(queryResult2.getObject().split("#")[1], QueryType.SUBJECT);
+                    for(QueryResult queryResult3 :results2){
+                        if (queryResult3.getPredicate().equals("Code"))
+                            knowledgeCode = queryResult3.getObject();
+
+                        knowledge.add(ks.getKnowledge(knowledgeCode));
+                        break;
+                    }
+                }
             }
-            institutions.add(new Internship(title, identifier, description, PositionTitle));
+            institutions.add(new Internship(title, identifier, description, PositionTitle,knowledge));
         }
+        if(!insS.getSelectedProgramme().equals("") || !insS.getKnowledges().isEmpty() || !insS.getCourses().isEmpty()){
+            KnowledgeStore ks= new KnowledgeStore();
+            ArrayList<Knowledge> progK= new ArrayList<Knowledge>();
+            if(!insS.getSelectedProgramme().equals(""))
+            progK=ks.getKnowledgeOfProgramme(insS.getSelectedProgramme());
+            ArrayList<Knowledge> courseK= new ArrayList<Knowledge>();
+            for(String s:insS.getCourses()){
+                courseK.addAll(ks.getKnowledgeOfCourse(s));
+            }
+            return InternshipRecommendation.recommendInternshipforSearch(institutions,insS.getSelectedProgramme(),
+                    progK,courseK,insS.getKnowledges());
+        }
+        else
         return institutions;
     }
 
