@@ -67,7 +67,8 @@ public class CompanyStore {
 
         QuerySolution soln = result.next();
         String identifier = soln.get("s").toString().replaceAll(StringUtils.namespaceInternship, "");
-
+        ArrayList<Internship> inter=new ArrayList<Internship>();
+        InternshipStore is=new InternshipStore();
         String courseUnitCode = CompanyCode;
         String  CompanyName="", CompanyWebsite="", CompanyAddress="",CompanyDescription=""; 
         // get programme instance data
@@ -81,8 +82,20 @@ public class CompanyStore {
                 CompanyAddress = queryResult2.getObject();
             else if (queryResult2.getPredicate().equals("CompanyDescription"))
                 CompanyDescription = queryResult2.getObject();
+            else if (queryResult2.getPredicate().equals("provides")){
+                String InternshipId= queryResult2.getObject();
+                ArrayList<QueryResult> results3 = query(InternshipId, QueryType.SUBJECT);
+                for(QueryResult queryResult4 :results3){
+                    if (queryResult4.getPredicate().equals("InternshipCode")){
+                        InternshipId = queryResult4.getObject();
+
+                        inter.add(is.getInternship(InternshipId));
+                    break;
+                    }
+                }
+            }
         }
-        return new Company(CompanyDescription,CompanyAddress , CompanyCode, CompanyWebsite,CompanyName);
+        return new Company(CompanyDescription,CompanyAddress , CompanyCode, CompanyWebsite,CompanyName,inter);
     }
     @RequestMapping(method = RequestMethod.GET, value="/getCompanies")
     public ArrayList<Company> getCompanies()

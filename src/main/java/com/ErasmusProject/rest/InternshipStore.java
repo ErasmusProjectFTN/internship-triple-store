@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import javax.annotation.PostConstruct;
-import javax.ws.rs.core.Response;
 
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ErasmusProject.model.Company;
 import com.ErasmusProject.model.Internship;
 import com.ErasmusProject.model.InternshipSearch;
 import com.ErasmusProject.model.Knowledge;
@@ -199,6 +199,44 @@ public class InternshipStore {
             }
         }
         return new Internship(InternshipTitle,InternshipCode,InternshipDescription,InternshipPositionTitle,knowledge);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value="/getParentCompany")
+	public Company getParentCompany(@RequestParam("internship")String InternshipCode)
+    {
+        ArrayList<String> namespaces = new ArrayList<String>();
+        ArrayList<QueryResult> retVal = null;
+        namespaces.add(StringUtils.namespaceInternship);
+        namespaces.add(StringUtils.namespaceW3c);
+
+        ArrayList<Knowledge> knowledge=new ArrayList<Knowledge>();
+        // get programme specification ids
+        String query = "SELECT ?s WHERE {?s <" + StringUtils.namespaceInternship + "InternshipCode> \""+InternshipCode+"\"}";
+        System.out.println(query);
+        ResultSet result = OntologyUtils.execSelect(StringUtils.URLquery, query);
+        System.out.println(result.hasNext());
+
+        QuerySolution soln = result.next();
+        String identifier = soln.get("s").toString().replaceAll(StringUtils.namespaceInternship, "");
+
+        String courseUnitCode = InternshipCode;
+        String Company="";
+
+        // get programme instance data
+        retVal = query(identifier, QueryType.SUBJECT);
+        for (QueryResult queryResult2 : retVal) {
+            if (queryResult2.getPredicate().equals("isProvidedAt")){
+                CompanyStore ks= new CompanyStore();
+                ArrayList<QueryResult> results2 = ks.query(queryResult2.getObject(), QueryType.SUBJECT);
+                for(QueryResult queryResult3 :results2){
+                    if (queryResult3.getPredicate().equals("CompanyCode"))
+                        return ks.getCompany(queryResult3.getObject());
+
+                    
+                }
+            }
+        }
+        return new Company();
     }
     @RequestMapping(method = RequestMethod.GET, value = "/queryInternships")
     public ArrayList<QueryResult> queryInternships(@RequestParam("value") String val,

@@ -1,11 +1,14 @@
 package com.ErasmusProject.model;
 
+import java.util.ArrayList;
+
 public class Company {
     private String CompanyDescription;
     private String CompanyAddress;
     private String CompanyCode;
     private String CompanyWebsite;
     private String CompanyName;
+    private ArrayList<Internship> internships;
     public Company() {
         super();
     }
@@ -17,6 +20,16 @@ public class Company {
         CompanyCode = companyCode;
         CompanyWebsite = companyWebsite;
         CompanyName = companyName;
+    }
+    public Company(String companyDescription, String companyAddress,
+            String companyCode, String companyWebsite, String companyName,ArrayList<Internship> internship) {
+        super();
+        CompanyDescription = companyDescription;
+        CompanyAddress = companyAddress;
+        CompanyCode = companyCode;
+        CompanyWebsite = companyWebsite;
+        CompanyName = companyName;
+        internships=internship;
     }
     public String getCompanyDescription() {
         return CompanyDescription;
@@ -47,5 +60,11 @@ public class Company {
     }
     public void setCompanyName(String companyName) {
         CompanyName = companyName;
+    }
+    public ArrayList<Internship> getInternships() {
+        return internships;
+    }
+    public void setInternships(ArrayList<Internship> internships) {
+        this.internships = internships;
     }
 }
