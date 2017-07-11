@@ -151,7 +151,7 @@ public class InternshipStore {
         }catch(IOException e){
             e.printStackTrace();
         }
-        return "Degree programme instance with id: " + InternshipCode + " is removed.";
+        return "Internship with id: " + InternshipCode + " is removed.";
     }
 	@RequestMapping(method = RequestMethod.GET, value="/getInternship")
     public Internship getInternship(@RequestParam("identifier")String InternshipCode)

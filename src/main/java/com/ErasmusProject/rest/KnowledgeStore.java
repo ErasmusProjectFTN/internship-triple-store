@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.jena.ontology.Individual;
+import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ErasmusProject.model.Company;
 import com.ErasmusProject.model.Internship;
 import com.ErasmusProject.model.Knowledge;
 import com.ErasmusProject.model.KnowledgeNode;
@@ -125,7 +128,51 @@ public class KnowledgeStore {
         }
 
         return new Knowledge(identifier,"","",name,"","","","");
-    }@RequestMapping(method = RequestMethod.GET, value="/getKnowledge")
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value="/modifyKnowledge")
+    public Knowledge modifyKnowledge(@RequestParam(value="Code", required=true) String identifier,
+            @RequestParam(value="Name", required=true) String Name,
+            @RequestParam(value="LaboratoryRequirements", required=false) String LaboratoryRequirements,
+            @RequestParam(value="Description", required=false) String Description,
+            @RequestParam(value="NotableContributors", required=false) String NotableContributors,
+            @RequestParam(value="NotableLiterature", required=false) String NotableLiterature,
+            @RequestParam(value="PracticalApplications", required=false) String PracticalApplications,
+            @RequestParam(value="RequiredTeachingCredentials", required=false) String RequiredTeachingCredentials)
+    {
+        try{
+            OntModel model = OntologyUtils.loadOntModel(StringUtils.URLdataset,  StringUtils.namespaceInternship);
+            Individual ind = model.getIndividual(StringUtils.namespaceInternship + identifier);
+            HashMap<String, String> propertyValues = new HashMap<>();
+            propertyValues.put("Name", Name);
+            propertyValues.put("LaboratoryRequirements", LaboratoryRequirements);
+            propertyValues.put("Description", Description);
+            propertyValues.put("NotableContributors", NotableContributors);
+            propertyValues.put("NotableLiterature", NotableLiterature);
+            propertyValues.put("PracticalApplications", PracticalApplications);
+            propertyValues.put("RequiredTeachingCredentials", RequiredTeachingCredentials);
+           
+            model = OntologyUtils.modifyIndividual(ind, model, propertyValues, StringUtils.namespaceInternship);
+            OntologyUtils.reloadModel(model, StringUtils.URL);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        return new Knowledge(identifier, Description,LaboratoryRequirements,Name,NotableContributors,NotableLiterature,PracticalApplications,RequiredTeachingCredentials);
+    }
+    
+    @RequestMapping(method = RequestMethod.DELETE, value = "/removeKnowledge")
+    public String removeKnowledge(@RequestParam(value = "Code", required=true) String Code)
+    {
+        try{
+            OntModel model = OntologyUtils.loadOntModel(StringUtils.URLdataset,  StringUtils.namespaceInternship);
+            model = OntologyUtils.removeIndividual("KnowledgeDomain", model, StringUtils.namespaceInternship, Code);
+            OntologyUtils.reloadModel(model, StringUtils.URL);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        return "Knowledge with id: " + Code + " is removed.";
+    }
+    @RequestMapping(method = RequestMethod.GET, value="/getKnowledge")
     public Knowledge getKnowledge(@RequestParam("identifier")String Code)
     {
         ArrayList<String> namespaces = new ArrayList<String>();
@@ -135,9 +182,7 @@ public class KnowledgeStore {
 
         // get programme specification ids
         String query = "SELECT ?s WHERE {?s <" + StringUtils.namespaceKnowledge + "Code> \""+Code+"\"}";
-        System.out.println(query);
         ResultSet result = OntologyUtils.execSelect(StringUtils.URLquery, query);
-        System.out.println(result.hasNext());
 
         QuerySolution soln = result.next();
         String identifier = soln.get("s").toString().replaceAll(StringUtils.namespaceKnowledge, "");
@@ -583,6 +628,28 @@ public class KnowledgeStore {
         String identifierKnowledgeSon = soln.get("s").toString().replaceAll(StringUtils.namespaceKnowledge, "");
 
         query = "INSERT DATA{<"+StringUtils.namespaceKnowledge + identifierKnowledgeParent+"> <"+StringUtils.namespaceKnowledge+"isContainedIn> <"+StringUtils.namespaceKnowledge+identifierKnowledgeSon+">}";
+        OntologyUtils.execUpdate(StringUtils.URLupdate, query);
+        return null;
+    }
+    @RequestMapping(method = RequestMethod.POST, value="/addToCourse")
+    public Knowledge addToCourse(@RequestParam("parentCourse")String parentCourse,
+            @RequestParam("Knowledge")String sonKnowledge)
+    {   
+        
+        
+        String query = "SELECT ?s WHERE {?s <" + StringUtils.namespaceEcts + "CourseUnitCode> \""+parentCourse+"\"}";
+        ResultSet result = OntologyUtils.execSelect(StringUtils.URLquery, query);
+
+        QuerySolution soln = result.next();
+        String identifierCourse = soln.get("s").toString().replaceAll(StringUtils.namespaceEcts, "");
+        
+        query = "SELECT ?s WHERE {?s <" + StringUtils.namespaceKnowledge + "Code> \""+sonKnowledge+"\"}";
+        result = OntologyUtils.execSelect(StringUtils.URLquery, query);
+
+        soln = result.next();
+        String identifierKnowledgeSon = soln.get("s").toString().replaceAll(StringUtils.namespaceKnowledge, "");
+
+        query = "INSERT DATA{<"+StringUtils.namespaceEcts + identifierCourse+"> <"+StringUtils.namespaceKnowledge+"teaches> <"+StringUtils.namespaceKnowledge+identifierKnowledgeSon+">}";
         OntologyUtils.execUpdate(StringUtils.URLupdate, query);
         return null;
     }

@@ -11,7 +11,8 @@
      xmlns:wot="http://xmlns.com/wot/0.1/"
      xmlns:foaf="http://xmlns.com/foaf/0.1/"
      xmlns:dc="http://purl.org/dc/elements/1.1/"
-     xmlns:internship="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#">
+     xmlns:internship="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#"
+     xmlns:knowledge="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#">
     <owl:Ontology rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship">
         <owl:imports rdf:resource="http://www.semanticweb.org/banevezilic/ontologies/2017/0/student"/>
         <owl:imports rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge"/>
@@ -33,7 +34,6 @@
     <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/internship#forCourse -->
 
     <owl:ObjectProperty rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#forCourse">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#CourseUnitMark"/>
         <rdfs:range rdf:resource="http://www.semanticweb.org/nina/ontologies/2016/11/ects#CourseUnitInstance"/>
         <rdfs:comment>Povezuje opis uspeha sa kursom koji opisuje</rdfs:comment>
     </owl:ObjectProperty>
@@ -44,7 +44,6 @@
 
     <owl:ObjectProperty rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#hasMark">
         <rdfs:domain rdf:resource="http://www.semanticweb.org/banevezilic/ontologies/2017/0/student#Student"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#CourseUnitMark"/>
         <rdfs:comment>Povezuje studenta sa opisom uspeha na nekom kursu</rdfs:comment>
     </owl:ObjectProperty>
     
@@ -155,7 +154,6 @@
     <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/internship#CourseUnitMarkCode -->
 
     <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#CourseUnitMarkCode">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#CourseUnitMark"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     </owl:DatatypeProperty>
     
@@ -164,7 +162,6 @@
     <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/internship#CourseUnitMarkGrade -->
 
     <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#CourseUnitMarkGrade">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#CourseUnitMark"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#positiveInteger"/>
     </owl:DatatypeProperty>
     
@@ -173,7 +170,6 @@
     <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/internship#CourseUnitMarkPoints -->
 
     <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#CourseUnitMarkPoints">
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#CourseUnitMark"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#positiveInteger"/>
     </owl:DatatypeProperty>
     
@@ -234,12 +230,6 @@
     <owl:Class rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Company">
         <rdfs:comment>Opisuje kompaniju koja nudi praksu.</rdfs:comment>
     </owl:Class>
-    
-
-
-    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/internship#CourseUnitMark -->
-
-    <owl:Class rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#CourseUnitMark"/>
     
 
 
@@ -332,50 +322,6 @@
         <requires rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/knowledge#OOP"/>
         <InternshipCode rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3</InternshipCode>
         <InternshipTitle rdf:datatype="http://www.w3.org/2001/XMLSchema#string">INt3</InternshipTitle>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Student1 -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#Student1">
-        <rdf:type rdf:resource="http://www.semanticweb.org/banevezilic/ontologies/2017/0/student#Student"/>
-        <hasMark rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#mark1"/>
-        <hasMark rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#mark2"/>
-        <foaf:account rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#account1"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/internship#account1 -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#account1">
-        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/OnlineAccount"/>
-        <foaf:accountName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">name</foaf:accountName>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/internship#mark1 -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#mark1">
-        <rdf:type rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#CourseUnitMark"/>
-        <forCourse rdf:resource="http://www.semanticweb.org/nina/ontologies/2016/11/ects#courseUnit1"/>
-        <CourseUnitMarkCode rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</CourseUnitMarkCode>
-        <CourseUnitMarkGrade rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">7</CourseUnitMarkGrade>
-        <CourseUnitMarkPoints rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">77</CourseUnitMarkPoints>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/sasa/ontologies/2017/6/internship#mark2 -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#mark2">
-        <rdf:type rdf:resource="http://www.semanticweb.org/sasa/ontologies/2017/6/internship#CourseUnitMark"/>
-        <forCourse rdf:resource="http://www.semanticweb.org/nina/ontologies/2016/11/ects#courseUnit5"/>
-        <CourseUnitMarkCode rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2</CourseUnitMarkCode>
-        <CourseUnitMarkGrade rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">9</CourseUnitMarkGrade>
-        <CourseUnitMarkPoints rdf:datatype="http://www.w3.org/2001/XMLSchema#positiveInteger">88</CourseUnitMarkPoints>
     </owl:NamedIndividual>
 </rdf:RDF>
 

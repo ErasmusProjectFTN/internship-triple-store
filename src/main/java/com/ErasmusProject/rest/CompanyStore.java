@@ -2,7 +2,10 @@ package com.ErasmusProject.rest;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import org.apache.jena.ontology.Individual;
+import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,6 +53,42 @@ public class CompanyStore {
         }
 
         return new Company("","",identifier,"",name);
+    }
+    @RequestMapping(method = RequestMethod.POST, value="/modifyCompany")
+    public Company modifyCompany(@RequestParam(value="CompanyCode", required=true) String identifier,
+            @RequestParam(value="CompanyName", required=true) String CompanyName,
+            @RequestParam(value="CompanyWebsite", required=false) String CompanyWebsite,
+            @RequestParam(value="CompanyAddress", required=false) String CompanyAddress,
+            @RequestParam(value="CompanyDescription", required=false) String CompanyDescription)
+    {
+        try{
+            OntModel model = OntologyUtils.loadOntModel(StringUtils.URLdataset,  StringUtils.namespaceInternship);
+            Individual ind = model.getIndividual(StringUtils.namespaceInternship + identifier);
+            HashMap<String, String> propertyValues = new HashMap<>();
+            propertyValues.put("CompanyName", CompanyName);
+            propertyValues.put("CompanyWebsite", CompanyWebsite);
+            propertyValues.put("CompanyAddress", CompanyAddress);
+            propertyValues.put("CompanyDescription", CompanyDescription);
+           
+            model = OntologyUtils.modifyIndividual(ind, model, propertyValues, StringUtils.namespaceInternship);
+            OntologyUtils.reloadModel(model, StringUtils.URL);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        return new Company(CompanyDescription, CompanyAddress,identifier,CompanyWebsite,CompanyName);
+    }
+    
+    @RequestMapping(method = RequestMethod.DELETE, value = "/removeCompany")
+    public String removeCompany(@RequestParam(value = "CompanyCode", required=true) String CompanyCode)
+    {
+        try{
+            OntModel model = OntologyUtils.loadOntModel(StringUtils.URLdataset,  StringUtils.namespaceInternship);
+            model = OntologyUtils.removeIndividual("Company", model, StringUtils.namespaceInternship, CompanyCode);
+            OntologyUtils.reloadModel(model, StringUtils.URL);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        return "Company with id: " + CompanyCode + " is removed.";
     }
     @RequestMapping(method = RequestMethod.GET, value="/getCompany")
     public Company getCompany(@RequestParam("identifier")String CompanyCode)
