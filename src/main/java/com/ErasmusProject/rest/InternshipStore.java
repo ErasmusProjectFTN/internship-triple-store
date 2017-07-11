@@ -144,13 +144,16 @@ public class InternshipStore {
 	@RequestMapping(method = RequestMethod.DELETE, value = "/removeInternship")
     public String removeInternship(@RequestParam(value = "InternshipCode", required=true) String InternshipCode)
     {
-        try{
-            OntModel model = OntologyUtils.loadOntModel(StringUtils.URLdataset,  StringUtils.namespaceInternship);
-            model = OntologyUtils.removeIndividual("Internship", model, StringUtils.namespaceInternship, InternshipCode);
-            OntologyUtils.reloadModel(model, StringUtils.URL);
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+            String query = "SELECT ?s WHERE {?s <" + StringUtils.namespaceInternship + "InternshipCode> \""+InternshipCode+"\"}";
+            System.out.println(query);
+            ResultSet result = OntologyUtils.execSelect(StringUtils.URLquery, query);
+            System.out.println(result.hasNext());
+
+            QuerySolution soln = result.next();
+            String identifier = soln.get("s").toString().replaceAll(StringUtils.namespaceInternship, "");
+            query="DELETE WHERE{ <"+StringUtils.namespaceInternship + identifier+"> ?p ?o }";
+             OntologyUtils.execUpdate(StringUtils.URLupdate, query);
+        
         return "Internship with id: " + InternshipCode + " is removed.";
     }
 	@RequestMapping(method = RequestMethod.GET, value="/getInternship")

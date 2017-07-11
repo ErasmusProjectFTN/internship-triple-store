@@ -163,13 +163,14 @@ public class KnowledgeStore {
     @RequestMapping(method = RequestMethod.DELETE, value = "/removeKnowledge")
     public String removeKnowledge(@RequestParam(value = "Code", required=true) String Code)
     {
-        try{
-            OntModel model = OntologyUtils.loadOntModel(StringUtils.URLdataset,  StringUtils.namespaceInternship);
-            model = OntologyUtils.removeIndividual("KnowledgeDomain", model, StringUtils.namespaceInternship, Code);
-            OntologyUtils.reloadModel(model, StringUtils.URL);
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+            String query = "SELECT ?s WHERE {?s <" + StringUtils.namespaceKnowledge + "Code> \""+Code+"\"}";
+            ResultSet result = OntologyUtils.execSelect(StringUtils.URLquery, query);
+
+            QuerySolution soln = result.next();
+            String identifier = soln.get("s").toString().replaceAll(StringUtils.namespaceKnowledge, "");
+            query="DELETE WHERE{ <"+StringUtils.namespaceKnowledge + identifier+"> ?p ?o }";
+            OntologyUtils.execUpdate(StringUtils.URLupdate, query);
+        
         return "Knowledge with id: " + Code + " is removed.";
     }
     @RequestMapping(method = RequestMethod.GET, value="/getKnowledge")

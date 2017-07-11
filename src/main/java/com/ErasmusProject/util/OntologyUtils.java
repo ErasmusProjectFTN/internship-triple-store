@@ -83,6 +83,7 @@ public class OntologyUtils {
             throws IOException {
         DatasetAccessor accessor = DatasetAccessorFactory
                 .createHTTP(serviceURI);
+        accessor.deleteDefault();
         accessor.putModel(model);
     }
 

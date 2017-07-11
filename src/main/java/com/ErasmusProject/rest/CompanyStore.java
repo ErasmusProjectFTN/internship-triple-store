@@ -81,13 +81,16 @@ public class CompanyStore {
     @RequestMapping(method = RequestMethod.DELETE, value = "/removeCompany")
     public String removeCompany(@RequestParam(value = "CompanyCode", required=true) String CompanyCode)
     {
-        try{
-            OntModel model = OntologyUtils.loadOntModel(StringUtils.URLdataset,  StringUtils.namespaceInternship);
-            model = OntologyUtils.removeIndividual("Company", model, StringUtils.namespaceInternship, CompanyCode);
-            OntologyUtils.reloadModel(model, StringUtils.URL);
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+            String query = "SELECT ?s WHERE {?s <" + StringUtils.namespaceInternship + "CompanyCode> \""+CompanyCode+"\"}";
+            System.out.println(query);
+            ResultSet result = OntologyUtils.execSelect(StringUtils.URLquery, query);
+            System.out.println(result.hasNext());
+
+            QuerySolution soln = result.next();
+            String identifier = soln.get("s").toString().replaceAll(StringUtils.namespaceInternship, "");
+            query="DELETE WHERE{ <"+StringUtils.namespaceInternship + identifier+"> ?p ?o }";
+            OntologyUtils.execUpdate(StringUtils.URLupdate, query);
+        
         return "Company with id: " + CompanyCode + " is removed.";
     }
     @RequestMapping(method = RequestMethod.GET, value="/getCompany")
