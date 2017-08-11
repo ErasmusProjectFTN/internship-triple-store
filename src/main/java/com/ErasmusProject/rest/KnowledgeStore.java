@@ -654,4 +654,27 @@ public class KnowledgeStore {
         OntologyUtils.execUpdate(StringUtils.URLupdate, query);
         return null;
     }
+
+    @RequestMapping(method = RequestMethod.POST, value="/bindKnowledge")
+    public Knowledge bindKnowledge(@RequestParam("internship")String internship,
+            @RequestParam("Knowledge")String sonKnowledge)
+    {   
+        
+        
+        String query = "SELECT ?s WHERE {?s <" + StringUtils.namespaceInternship + "InternshipCode> \""+internship+"\"}";
+        ResultSet result = OntologyUtils.execSelect(StringUtils.URLquery, query);
+
+        QuerySolution soln = result.next();
+        String identifierCourse = soln.get("s").toString().replaceAll(StringUtils.namespaceInternship, "");
+        
+        query = "SELECT ?s WHERE {?s <" + StringUtils.namespaceKnowledge + "Code> \""+sonKnowledge+"\"}";
+        result = OntologyUtils.execSelect(StringUtils.URLquery, query);
+
+        soln = result.next();
+        String identifierKnowledgeSon = soln.get("s").toString().replaceAll(StringUtils.namespaceKnowledge, "");
+
+        query = "INSERT DATA{<"+StringUtils.namespaceInternship + identifierCourse+"> <"+StringUtils.namespaceInternship+"requires> <"+StringUtils.namespaceKnowledge+identifierKnowledgeSon+">}";
+        OntologyUtils.execUpdate(StringUtils.URLupdate, query);
+        return null;
+    }
 }
